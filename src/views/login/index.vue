@@ -9,7 +9,7 @@
         <van-cell-group class="verification-code">
             <van-icon class-prefix="icon" name="icon--"></van-icon>
             <van-field v-model="userInfo.code" placeholder="请输入验证码">
-                <van-button v-if="!isCountDown" round slot="button" size="small" type="primary">获取验证码</van-button>
+                <van-button @click="sendSmsCode" v-if="!isCountDown" round slot="button" size="small" type="primary">获取验证码</van-button>
                 <van-count-down v-else slot="button" format="SS s" :time="1000*60"></van-count-down>
             </van-field>
         </van-cell-group>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { userLogin } from '@/api/user.js'
+import { userLogin, getSmsCode } from '@/api/user.js'
 export default {
   name: 'loginPage',
   data () {
@@ -32,6 +32,12 @@ export default {
     }
   },
   methods: {
+    async sendSmsCode () {
+      const { mobile } = this.userInfo
+      const res = getSmsCode(mobile)
+      console.log(res)
+      this.isCountDown = true
+    },
     async userLogin () {
       const userInfo = this.userInfo
       this.$toast.loading({
