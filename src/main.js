@@ -3,6 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+// 加载验证插件的初始配置
+import './utils/validation'
+
 //  rem适配:动态设置html标签字体大小
 import 'amfe-flexible'
 
@@ -15,6 +18,7 @@ import './styles/index.less'
 
 Vue.config.productionTip = false
 
+// 注意 所有初始化的配置起码都应在new Vue根实例之前
 new Vue({
   render: h => h(App),
   router,
