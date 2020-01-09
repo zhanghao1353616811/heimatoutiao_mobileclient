@@ -10,6 +10,9 @@
     2.使用 ValidationProvider 组件把具体的表单元素包起来 例如input
       name 配置字段的提示名称
       rules 配置校验规则
+      自定义规则:
+      单个验证规则： rules="required"
+      多个验证规则: rules="requires|mobile"
       v-slot="{errors}"获取校验失败的错误提示消息
     -->
     <ValidationObserver ref="myForm">
@@ -95,10 +98,11 @@ export default {
           console.log(item)
           if (item[0]) {
             this.$toast(item[0])
-            return
+            // 找到第一个有错误的消息 给出提示 停止遍历
+            return // 中断
           }
         }
-        return
+        return // 中断
       }
       // 表单验证成功处理
 
@@ -113,12 +117,14 @@ export default {
       try {
         // 3.请求登录
         const res = await userLogin(userInfo)
+        // 将登陆成功获取到的用户 token 相关数据存储到 Vuex 容器
+        this.$store.commit('setUser', res.data.data)
         console.log('登陆成功', res)
         // 提示成功
         this.$toast.success('登录成功')
       } catch (error) {
         console.log('登录失败', error)
-        this.$toast.fail('登录失败,手机号码或验证码不对')
+        this.$toast.fail('登录失败,手机号或验证码不对')
       }
       // 4.根据后端返回结果执行后续业务处理
     }
