@@ -143,7 +143,7 @@ export default {
     border-bottom: 1px solid rgb(133, 129, 129);
   }
   .loginBtn{
-    padding: 26px 16px;
+    padding: 27px 16px;
     .van-button--normal {
       width: 100%;
       border-radius: 5px;

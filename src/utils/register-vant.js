@@ -16,7 +16,9 @@ import {
   CountDown,
   Tabbar,
   TabbarItem,
-  Image
+  Image,
+  Grid,
+  GridItem
 } from 'vant'
 
 // 注册
@@ -33,3 +35,5 @@ Vue.use(Button)
   .use(Tabbar)
   .use(TabbarItem)
   .use(Image)
+  .use(Grid)
+  .use(GridItem)
