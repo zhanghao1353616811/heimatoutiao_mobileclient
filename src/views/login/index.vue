@@ -1,5 +1,5 @@
 <template>
-  <div class="login-Container">
+  <van-row class="login-Container">
     <!-- 导航栏 -->
     <van-nav-bar title="登录"></van-nav-bar>
     <!-- /导航栏 -->
@@ -8,11 +8,11 @@
     表单验证：
     1.使用 ValidationObserver 组件把需要验证的整个表单包起来
     2.使用 ValidationProvider 组件把具体的表单元素包起来 例如input
-      name 配置字段的提示名称
-      rules 配置校验规则
+        name 配置字段的提示名称
+        rules 配置校验规则
       自定义规则:
       单个验证规则： rules="required"
-      多个验证规则: rules="requires|mobile"
+      多个验证规则: rules="requires|mobile" 加管道
       v-slot="{errors}"获取校验失败的错误提示消息
     -->
     <ValidationObserver ref="myForm">
@@ -34,7 +34,7 @@
     <van-row class="loginBtn">
       <van-button type="info" @click="userLogin">登录</van-button>
     </van-row>
-  </div>
+  </van-row>
 </template>
 
 <script>
@@ -122,6 +122,7 @@ export default {
         console.log('登陆成功', res)
         // 提示成功
         this.$toast.success('登录成功')
+        this.$router.push('/')
       } catch (error) {
         console.log('登录失败', error)
         this.$toast.fail('登录失败,手机号或验证码不对')
@@ -145,7 +146,7 @@ export default {
     padding: 26px 16px;
     .van-button--normal {
       width: 100%;
-      border-radius: 6px;
+      border-radius: 5px;
       background-color: #6db4fa;
     }
   }

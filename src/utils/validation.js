@@ -20,6 +20,7 @@ Object.keys(rules).forEach(rule => {
     message: messages[rule]
   })
 })
+
 // 添加验证手机号
 extend('mobile', {
   validate: value => {
@@ -27,6 +28,8 @@ extend('mobile', {
   },
   message: '手机号码格式错误'
 })
+
+// 添加验证码
 extend('code', {
   validate: value => {
     return /^\d{6}$/.test(value)

@@ -1,6 +1,7 @@
 /**
  * 封装操作本地存储的工具方法模块
  */
+
 export const getItem = name => {
   const data = window.localStorage.getItem(name)
   try {

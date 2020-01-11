@@ -13,8 +13,12 @@ import {
   Row,
   Col,
   Toast,
-  CountDown
+  CountDown,
+  Tabbar,
+  TabbarItem,
+  Image
 } from 'vant'
+
 // 注册
 Vue.use(Button)
   .use(Cell)
@@ -26,3 +30,6 @@ Vue.use(Button)
   .use(Col)
   .use(Toast)
   .use(CountDown)
+  .use(Tabbar)
+  .use(TabbarItem)
+  .use(Image)
