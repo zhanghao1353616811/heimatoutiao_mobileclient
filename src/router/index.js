@@ -32,8 +32,13 @@ const routes = [
         component: () => import('@/views/video')
       },
       {
+        name: 'my',
+        path: '/my',
+        component: () => import('@/views/my')
+      },
+      {
         name: 'user',
-        path: '/user',
+        path: '/user/:userId',
         component: () => import('@/views/user')
       }
     ]

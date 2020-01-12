@@ -1,127 +1,171 @@
 <template>
-  <van-row class="user-Container">
-    <van-row v-if="$store.state.user" class="user-info">
-      <van-row type="flex" align="center">
-        <van-col span="21" class="user-image">
-          <van-image :src="user.photo" round fit="fill" width="66" height="66"></van-image>
-          <span>{{user.name}}</span>
+  <div class="user-Container">
+    <van-nav-bar>
+      <van-icon @click="history.back()" slot="left" name="arrow-left" class="van-icon-arrow-left"></van-icon>
+      <span slot="title">{{userInfo.name}}</span>
+    </van-nav-bar>
+    <van-row class="user-info-container">
+      <van-col class="user-info">
+        <van-col>
+          <van-image :src="userInfo.photo" class="user-infoImage" round fit="fill"></van-image>
         </van-col>
-        <van-button round size="mini">编辑资料</van-button>
-      </van-row>
-      <van-grid :border="false" class="data-info">
-        <van-grid-item><span>{{user.art_count}}</span><span>头条</span></van-grid-item>
-        <van-grid-item><span>{{user.follow_count}}</span><span>关注</span></van-grid-item>
-        <van-grid-item><span>{{user.fans_count}}</span><span>粉丝</span></van-grid-item>
-        <van-grid-item><span>{{user.like_count}}</span><span>获赞</span></van-grid-item>
-      </van-grid>
+        <van-row class="user-info-row">
+          <van-col class="user-info-col">
+            <van-row class="item">
+              <van-col class="count">{{userInfo.art_count}}</van-col>
+              <van-col class="text">发布</van-col>
+            </van-row>
+            <van-row class="item">
+              <van-col class="count">{{userInfo.follow_count}}</van-col>
+              <van-col class="text">关注</van-col>
+            </van-row>
+            <van-row class="item">
+              <van-col class="count">{{userInfo.fans_count}}</van-col>
+              <van-col class="text">粉丝</van-col>
+            </van-row>
+            <van-row class="item">
+              <van-col class="count">{{userInfo.like_count}}</van-col>
+              <van-col class="text">获赞</van-col>
+            </van-row>
+          </van-col>
+          <div class="action">
+            <van-button type="primary" size="small">私信</van-button>
+            <van-button type="info" size="small">
+              <van-icon slot="button" name="plus"></van-icon>关注</van-button>
+          </div>
+        </van-row>
+      </van-col>
+      <van-col class="user-intro">
+        <van-col>
+          <span>认证:</span><span>{{userInfo.certi}}</span>
+        </van-col>
+        <van-col class="user-intro-item">
+          <span>简介:</span><span>{{userInfo.intro}}</span>
+        </van-col>
+      </van-col>
     </van-row>
-    <van-row v-else class="click-login">
-      <van-col @click="$router.push('/login')" class="click-login-image"></van-col>
-      <span @click="$router.push('/login')">点击登录</span>
-    </van-row>
-    <van-grid :column-num="3" :border="false">
-        <van-grid-item text="我的收藏"><van-icon slot="icon" size="24" class-prefix="icon" name="xingxing" color="#eb5253"></van-icon></van-grid-item>
-        <van-grid-item text="浏览历史"><van-icon slot="icon" size="24" class-prefix="icon" name="browsing-history-o" color="#ffa023"></van-icon></van-grid-item>
-        <van-grid-item text="作品"><van-icon slot="icon" size="24" class-prefix="icon" name="edit" color="#678eff"></van-icon></van-grid-item>
-    </van-grid>
-    <van-cell-group style="margin-top:10px">
-      <van-cell title="消息通知" is-link></van-cell>
-      <van-cell title="小智同学" is-link></van-cell>
-    </van-cell-group>
-    <van-button @click="loginOut" v-if="$store.state.user" plain class="loginBtn">退出登录</van-button>
-  </van-row>
+    <van-list v-model="loading" :finished="finished" finished-text="没有更多了">
+      <van-cell v-for="item in list" :key="item" :title="item"></van-cell>
+    </van-list>
+  </div>
 </template>
 
 <script>
-import { getUserInfo } from '@/api/user'
+import { getUserById } from '@/api/user'
+import { getUserArticles } from '@/api/articles'
 
 export default {
   name: 'userPage',
   data () {
     return {
-      user: {}
+      list: [],
+      page: 1,
+      loading: false,
+      finished: false,
+      userInfo: {}
     }
   },
   methods: {
     async loadUserInfo () {
       try {
-        const { data } = await getUserInfo()
+        const { data } = await getUserById(this.$route.params.userId)
+        this.userInfo = data.data
         // console.log(data)
-        this.user = data.data
       } catch (error) {
-        // console.log(error)
-        this.$toast('获取用户数据失败')
+        console.log(error)
+        this.$toast('获取数据失败')
       }
     },
-    async loginOut () {
-      try {
-        await this.$dialog.confirm({
-          title: '是否退出',
-          message: '退出当前头条账号，将不能同步收藏，发布评论和云端分享等'
-        })
-        this.$store.commit('setUser', null)
-      } catch (error) {
-        // console.log('用户取消', error)
-        this.$dialog.close()
-      }
+    async onLoad () {
+      // 请求获取数据
+      const { data } = await getUserArticles(this.$route.params.userId, {
+        page: this.page,
+        per_page: 20
+      })
+      // 把数据添加到列表中
+      console.log(data)
+      data.data.results.forEach(element => {
+
+      })
+      // 加载状态结束
+      this.loading = false
+      // 判断数据是否全部加载完毕
+      // 异步更新数据
+      // setTimeout(() => {
+      //   for (let i = 0; i < 10; i++) {
+      //     this.list.push(this.list.length + 1)
+      //   }
+      //   // 加载状态结束
+      //   this.loading = false
+
+      //   // 数据全部加载完成
+      //   if (this.list.length >= 40) {
+      //     this.finished = true
+      //   }
+      // }, 500)
     }
   },
   created () {
-    if (this.$store.state.user) {
-      this.loadUserInfo()
-    }
+    this.loadUserInfo()
+    this.onLoad()
   }
 }
 </script>
 
-<style lang="less" scoped>
-.user-Container{
-  background-color: #f1efef;
-  .user-info{
-    height: 182px;
-    color: #fff;
-    font-size: 15px;
-    padding: 40px 20px;
-    box-sizing: border-box;
-    background: url('~@/assets/images/banner.png') no-repeat;
-    background-size: cover;
-    .user-image{
+<style lang='less' scoped>
+.user-Container {
+  .van-icon-arrow-left {
+    color: #ffffff;
+    font-size: 22px;
+  }
+  .user-info-container {
+    font-size: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    .user-info {
+      .user-infoImage {
+        width: 80px;
+        height: 80px;
+        // background: url("./mobile.png");
+      }
       display: flex;
       align-items: center;
-      .van-image{
-        margin-right: 15px;
-        padding: 2px;
-        background: #fff;
+      .user-info-row {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        width: 70%;
+        height: 80px;
+        padding: 0 12px;
+        .user-info-col {
+          display: flex;
+          justify-content: space-between;
+          .item {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+          .text {
+            font-size: 12px;
+          }
+         }
+        }
+        .action {
+          display: flex;
+          justify-content: space-between;
+          .van-button {
+            width: 45%;
+          }
+        }
       }
     }
-   .data-info {
-      ::v-deep .van-grid-item__content {
-        background: none;
+    .user-intro{
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      .user-intro-item{
+        margin-top: 5px;
       }
-    }
-  }
-  .loginBtn{
-    width: 100%;
-    margin-top: 10px;
-  }
-  .click-login{
-    height: 182px;
-    color: #fff;
-    font-size: 15px;
-    box-sizing: border-box;
-    background: url('~@/assets/images/banner.png') no-repeat;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    .click-login-image{
-      width: 66px;
-      height: 66px;
-      margin-bottom: 10px;
-      box-sizing: border-box;
-      background: url('~@/assets/images/mobile.png');
-      background-size: cover;
     }
   }
 }
