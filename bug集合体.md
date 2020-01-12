@@ -5,3 +5,5 @@
 
     @color-primary rule is missing block or ending semi-colon 规则缺少块或结束分号
     出现这种错误: 每个less文件中 每条语句 都要加分号(;) 不然会报错
+
+    GET http://ttapi.research.itcast.cn/app/v1_0/user 401 (UNAUTHORIZED) 请求拦截器忘记带token

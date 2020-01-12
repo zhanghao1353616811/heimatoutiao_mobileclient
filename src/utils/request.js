@@ -7,7 +7,7 @@ import jsonBig from 'json-bigint'
 
 // 在非组件模块中 直接加载获取容器
 // 这里拿到的store 和你在组件中访问 this.$store 是一个东西
-import store from '@/store'
+import store from '@/store/index.js'
 
 // axios.create 方法创建一个和 axios 本身功能一样的一个对象
 const request = axios.create({
@@ -32,14 +32,16 @@ request.defaults.transformResponse = [function (data) {
 }]
 
 // 请求拦截器
-axios.interceptors.request.use(function (config) {
+request.interceptors.request.use(function (config) {
   // config请求配置对象 我们可以通过修改 config 来实现统一请求数据处理
   const { user } = store.state
+  // console.log(user)
   if (user) {
+    // console.log(config)
     // 统一添加 token
     // config.headers 获取操作请求头对象
     // Authorization 是后端要求的字段名称 数据值后端要求提供 Bearer token数据
-    config.Headers.Authorization = `Bearer ${user}`
+    config.headers.Authorization = `Bearer ${user.token}`
   }
   return config
 }, function (error) {
@@ -47,7 +49,7 @@ axios.interceptors.request.use(function (config) {
 })
 
 // 响应拦截器
-axios.interceptors.response.use(function (response) {
+request.interceptors.response.use(function (response) {
   return response
 }, function (error) {
   return Promise.reject(error)

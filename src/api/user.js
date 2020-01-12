@@ -19,7 +19,15 @@ export const userLogin = data => {
 
 export const getSmsCode = mobile => {
   return request({
-    url: `/app/v1_0/sms/codes/${mobile}`,
-    method: 'GET'
+    method: 'GET',
+    url: `/app/v1_0/sms/codes/${mobile}`
+  })
+}
+
+// 获取当前登录的信息
+export const getUserInfo = () => {
+  return request({
+    method: 'GET',
+    url: '/app/v1_0/user'
   })
 }

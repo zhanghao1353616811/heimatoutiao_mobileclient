@@ -1,29 +1,26 @@
 <template>
-    <div class="tab-bar">
-        <!-- 子路由出口 -->
-        <router-view></router-view>
-        <!-- /子路由出口 -->
-        <!-- tab-bar -->
-        <van-tabbar v-model="active" route>
-            <van-tabbar-item to="/" icon="home-o">首页</van-tabbar-item>
-            <van-tabbar-item to="/question" icon="comment-o">问答</van-tabbar-item>
-            <van-tabbar-item to="/video" icon="video-o">视频</van-tabbar-item>
-            <van-tabbar-item to="/user" icon="manager-o">我的</van-tabbar-item>
-        </van-tabbar>
-        <!-- /tab-bar -->
-    </div>
+  <div class="tab-bar">
+    <!-- 子路由出口 -->
+    <router-view></router-view>
+    <!-- /子路由出口 -->
+    <!-- tab-bar -->
+    <van-tabbar route>
+      <van-tabbar-item to="/" icon="home-o">首页</van-tabbar-item>
+      <van-tabbar-item to="/question" icon="comment-o">问答</van-tabbar-item>
+      <van-tabbar-item to="/video" icon="video-o">视频</van-tabbar-item>
+      <van-tabbar-item to="/user" icon="manager-o">{{$store.state.user?"我的":"未登录"}}</van-tabbar-item>
+    </van-tabbar>
+    <!-- /tab-bar -->
+  </div>
 </template>
 
 <script>
 export default {
   data () {
-    return {
-      active: 0
-    }
+    return {}
   }
 }
 </script>
 
 <style>
-
 </style>

@@ -47,8 +47,8 @@ export default {
     return {
       isCountDownShow: false, // 是否显示倒计时
       userInfo: {
-        mobile: '', // 手机号
-        code: '' // 短信验证码
+        mobile: '13911111111', // 手机号
+        code: '246810' // 短信验证码
       }
     }
   },
@@ -122,6 +122,7 @@ export default {
         console.log('登陆成功', res)
         // 提示成功
         this.$toast.success('登录成功')
+        // 跳转到首页
         this.$router.push('/')
       } catch (error) {
         console.log('登录失败', error)
