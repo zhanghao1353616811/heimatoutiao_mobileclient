@@ -15,7 +15,7 @@
     <!-- /频道列表 -->
     <van-popup v-model="isChannelEditShow" position="bottom" :style="{height:'95%'}"
     round closeable close-icon-position="top-left">
-    <channel-edit/>
+    <channel-edit :user-channels="userChannels"/>
     </van-popup>
   </div>
 </template>
@@ -24,6 +24,7 @@
 import { getUserChannel } from '@/api/channel'
 import articleList from './components/article-list'
 import channelEdit from './components/channel-edit'
+
 export default {
   name: 'homePage',
   components: {

@@ -6,20 +6,33 @@
       <van-button slot="right-icon" round type="danger" size="mini">编辑</van-button>
     </van-cell>
     <van-grid :column-num="4">
-        <van-grid-item v-for="value in 15" :key="value" text="推荐"></van-grid-item>
+        <van-grid-item v-for="channel in userChannels" :key="channel.id" :text="channel.name"></van-grid-item>
     </van-grid>
     <van-cell title="推荐频道">
       <span slot="icon" class="tip">点击添加频道</span>
       <van-button slot="right-icon" round type="danger" size="mini">编辑</van-button>
     </van-cell>
     <van-grid :column-num="4">
-        <van-grid-item v-for="value in 15" :key="value" text="推荐"></van-grid-item>
+        <van-grid-item class="" v-for="value in 15" :key="value" text="推荐"></van-grid-item>
     </van-grid>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'channelEdit',
+  props: {
+    userChannels: {
+      type: Object,
+      required: true
+    }
+  },
+  data () {
+    return {
+
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>
