@@ -1,9 +1,6 @@
 <template>
   <div class="user-Container">
-    <van-nav-bar>
-      <van-icon @click="history.back()" slot="left" name="arrow-left" class="van-icon-arrow-left"></van-icon>
-      <span slot="title">{{userInfo.name}}</span>
-    </van-nav-bar>
+    <van-nav-bar @click-left="$router.back()" :title="userInfo.name" left-arrow />
     <van-row class="user-info-container">
       <van-col class="user-info">
         <van-col>
@@ -45,7 +42,7 @@
       </van-col>
     </van-row>
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了">
-      <van-cell v-for="item in list" :key="item" :title="item"></van-cell>
+      <van-cell v-for="(item,index) in list" :key="index" :title="item.title"></van-cell>
     </van-list>
   </div>
 </template>
@@ -76,48 +73,40 @@ export default {
         this.$toast('获取数据失败')
       }
     },
-    async onLoad () {
+    async onLoadUser () {
       // 请求获取数据
       const { data } = await getUserArticles(this.$route.params.userId, {
         page: this.page,
         per_page: 20
       })
       // 把数据添加到列表中
-      console.log(data)
-      data.data.results.forEach(element => {
-
-      })
-      // 加载状态结束
+      // console.log(data)
+      const { results } = data.data
+      console.log(results)
+      this.list.push(...results)
+      // results.forEach(item => {
+      //   this.list.push(item)
+      // })
+      // 3.加载状态结束
       this.loading = false
       // 判断数据是否全部加载完毕
-      // 异步更新数据
-      // setTimeout(() => {
-      //   for (let i = 0; i < 10; i++) {
-      //     this.list.push(this.list.length + 1)
-      //   }
-      //   // 加载状态结束
-      //   this.loading = false
-
-      //   // 数据全部加载完成
-      //   if (this.list.length >= 40) {
-      //     this.finished = true
-      //   }
-      // }, 500)
+      if (results.length) {
+        this.page++
+      } else {
+        this.finished = true
+      }
     }
   },
   created () {
     this.loadUserInfo()
-    this.onLoad()
+    this.onLoadUser()
   }
 }
 </script>
 
 <style lang='less' scoped>
 .user-Container {
-  .van-icon-arrow-left {
-    color: #ffffff;
-    font-size: 22px;
-  }
+  font-size: 18px;
   .user-info-container {
     font-size: 12px;
     padding: 12px;

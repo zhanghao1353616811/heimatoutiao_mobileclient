@@ -3,8 +3,8 @@
     <van-row v-if="$store.state.user" class="my-info">
       <van-row type="flex" align="center">
         <van-col span="21" class="my-image">
-          <van-image :src="user.photo" round fit="fill"></van-image>
-          <span>{{user.name}}</span>
+          <van-image @click="$router.push(`/user/${user.id}`)" :src="user.photo" round fit="cover"></van-image>
+          <span @click="$router.push(`/user/${user.id}`)">{{user.name}}</span>
         </van-col>
         <van-button round size="mini">编辑资料</van-button>
       </van-row>
@@ -19,7 +19,7 @@
       <van-col @click="$router.push('/login')" class="click-login-image"></van-col>
       <span @click="$router.push('/login')">点击登录</span>
     </van-row>
-    <van-grid :column-num="3" :border="false">
+    <van-grid :column-num="3" :border="false" clickable>
         <van-grid-item text="我的收藏"><van-icon slot="icon" class-prefix="icon" name="xingxing" class="my-icon" color="#eb5253"></van-icon></van-grid-item>
         <van-grid-item text="浏览历史"><van-icon slot="icon" class-prefix="icon" name="browsing-history-o" class="my-icon" color="#ffa023"></van-icon></van-grid-item>
         <van-grid-item text="作品"><van-icon slot="icon" class-prefix="icon" name="edit" class="my-icon" color="#678eff"></van-icon></van-grid-item>
@@ -28,7 +28,7 @@
       <van-cell title="消息通知" is-link></van-cell>
       <van-cell title="小智同学" is-link></van-cell>
     </van-cell-group>
-    <van-button @click="loginOut" v-if="$store.state.user" plain class="loginBtn">退出登录</van-button>
+    <van-button @click="userLoginOut" v-if="$store.state.user" plain class="loginBtn">退出登录</van-button>
   </van-row>
 </template>
 
@@ -53,7 +53,7 @@ export default {
         this.$toast('获取数据失败')
       }
     },
-    async loginOut () {
+    async userLoginOut () {
       try {
         await this.$dialog.confirm({
           title: '是否退出',
@@ -80,7 +80,7 @@ export default {
   .my-info{
     height: 182px;
     color: #fff;
-    font-size: 15px;
+    font-size: 14px;
     padding: 40px 20px;
     box-sizing: border-box;
     background: url('~@/assets/images/banner.png') no-repeat;
@@ -89,8 +89,8 @@ export default {
       display: flex;
       align-items: center;
       .van-image{
-        width: 66px;
-        height: 66px;
+        width: 62px;
+        height: 62px;
         padding: 2px;
         margin-right: 15px;
         background: #fff;
@@ -127,7 +127,7 @@ export default {
     }
   }
   .my-icon{
-    font-size: 24px;
+    font-size: 22px;
   }
   .my-van-cell{
     margin-top:10px;
