@@ -1,21 +1,33 @@
 <template>
   <div class="home-Container">
+    <!-- 导航栏 -->
     <van-nav-bar title="首页"/>
+    <!-- /导航栏 -->
+    <!-- 频道列表 -->
     <van-tabs v-model="active">
-      <van-tab v-for="channel in userChannels" :title="channel.name" :key="channel.id"/>
+      <van-tab v-for="channel in userChannels" :title="channel.name" :key="channel.id">
+        <!-- 文章列表 -->
+        <article-list :channel="channel"></article-list>
+        <!-- /文章列表 -->
+      </van-tab>
     </van-tabs>
+    <!-- /频道列表 -->
   </div>
 </template>
 
 <script>
 import { getUserChannel } from '@/api/channel'
+import articleList from './components/article-list'
 
 export default {
   name: 'homePage',
+  components: {
+    articleList
+  },
   data () {
     return {
       active: 0,
-      userChannels: []
+      userChannels: [] // 用户频道列表
     }
   },
   methods: {

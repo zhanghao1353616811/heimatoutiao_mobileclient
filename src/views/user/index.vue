@@ -74,12 +74,12 @@ export default {
       }
     },
     async onLoadUser () {
-      // 请求获取数据
+      // 1.请求获取数据
       const { data } = await getUserArticles(this.$route.params.userId, {
         page: this.page,
         per_page: 20
       })
-      // 把数据添加到列表中
+      // 2.把数据添加到列表中
       // console.log(data)
       const { results } = data.data
       console.log(results)
@@ -89,7 +89,7 @@ export default {
       // })
       // 3.加载状态结束
       this.loading = false
-      // 判断数据是否全部加载完毕
+      // 4.判断数据是否全部加载完毕
       if (results.length) {
         this.page++
       } else {
@@ -116,7 +116,6 @@ export default {
       .user-infoImage {
         width: 80px;
         height: 80px;
-        // background: url("./mobile.png");
       }
       display: flex;
       align-items: center;
