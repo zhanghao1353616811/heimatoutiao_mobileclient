@@ -2,7 +2,7 @@
     <div class="article-list">
         <van-pull-refresh v-model="isLoading" @refresh="refreshLoadArticleList">
             <van-list @load="onLoadArticleList" v-model="loading" :finished="finished" finished-text="没有更多了">
-                <van-cell v-for="(item,index) in list" :key="index" :title="item.title"></van-cell>
+                <van-cell v-for="(article,index) in list" :key="index" :title="article.title"></van-cell>
             </van-list>
         </van-pull-refresh>
     </div>

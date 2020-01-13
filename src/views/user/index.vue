@@ -42,7 +42,7 @@
       </van-col>
     </van-row>
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了">
-      <van-cell v-for="(item,index) in list" :key="index" :title="item.title"></van-cell>
+      <van-cell v-for="(user,index) in list" :key="index" :title="user.title"></van-cell>
     </van-list>
   </div>
 </template>

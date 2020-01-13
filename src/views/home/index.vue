@@ -5,6 +5,7 @@
     <!-- /导航栏 -->
     <!-- 频道列表 -->
     <van-tabs v-model="active">
+      <van-icon @click="isChannelEditShow=true" slot="nav-right" name="wap-nav"></van-icon>
       <van-tab v-for="channel in userChannels" :title="channel.name" :key="channel.id">
         <!-- 文章列表 -->
         <article-list :channel="channel"></article-list>
@@ -12,6 +13,9 @@
       </van-tab>
     </van-tabs>
     <!-- /频道列表 -->
+    <van-popup v-model="isChannelEditShow" position="bottom" :style="{height:'95%'}"
+    round closeable close-icon-position="top-left">
+    </van-popup>
   </div>
 </template>
 
@@ -26,6 +30,7 @@ export default {
   },
   data () {
     return {
+      isChannelEditShow: false,
       active: 0,
       userChannels: [] // 用户频道列表
     }
@@ -53,6 +58,14 @@ export default {
 .home-Container{
   padding-top: 90px;
   padding-bottom: 50px;
+}
+.van-icon{
+  position: fixed;
+  right: 0;
+  font-size: 26px;
+  line-height: 44px;
+  opacity: 0.8;
+  background-color: #fff;
 }
 /deep/.van-tabs__wrap{
     position: fixed;

@@ -14,6 +14,7 @@ import {
   CountDown,
   Toast,
   PullRefresh,
+  Popup,
   Row,
   Col,
   Cell,
@@ -37,6 +38,7 @@ Vue.use(Button)
   .use(CountDown)
   .use(Toast)
   .use(PullRefresh)
+  .use(Popup)
   .use(Row)
   .use(Col)
   .use(Cell)
