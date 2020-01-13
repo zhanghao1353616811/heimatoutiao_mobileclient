@@ -55,11 +55,11 @@ export default {
   name: 'userPage',
   data () {
     return {
-      list: [],
-      page: 1,
-      loading: false,
-      finished: false,
-      userInfo: {}
+      list: [], // 列表数据
+      page: 1, // 获取下一页数据的页码
+      loading: false, // 控制上拉加载更多的 loading
+      finished: false, // 控制是否加载结束了
+      userInfo: {} // 用户信息
     }
   },
   methods: {
@@ -76,8 +76,8 @@ export default {
     async onLoadUser () {
       // 1.请求获取数据
       const { data } = await getUserArticles(this.$route.params.userId, {
-        page: this.page,
-        per_page: 20
+        page: this.page, // 可选的，默认是第 1 页
+        per_page: 20// 可选的，默认每页 20 条
       })
       // 2.把数据添加到列表中
       // console.log(data)

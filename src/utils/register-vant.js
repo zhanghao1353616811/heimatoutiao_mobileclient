@@ -13,6 +13,7 @@ import {
   Field,
   CountDown,
   Toast,
+  PullRefresh,
   Row,
   Col,
   Cell,
@@ -35,6 +36,7 @@ Vue.use(Button)
   .use(Field)
   .use(CountDown)
   .use(Toast)
+  .use(PullRefresh)
   .use(Row)
   .use(Col)
   .use(Cell)
