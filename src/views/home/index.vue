@@ -15,7 +15,7 @@
     <!-- /频道列表 -->
     <van-popup v-model="isChannelEditShow" position="bottom" :style="{height:'93%'}"
     round closeable close-icon-position="top-left">
-    <channel-edit :user-channels="userChannels"/>
+    <channel-edit :user-channels="userChannels" @switch="switchChannel" :active="active"/>
     </van-popup>
   </div>
 </template>
@@ -34,11 +34,15 @@ export default {
   data () {
     return {
       isChannelEditShow: false,
-      active: 0,
+      active: 0, // 控制激活样式
       userChannels: [] // 用户频道列表
     }
   },
   methods: {
+    switchChannel (index) {
+      this.active = index
+      this.isChannelEditShow = false
+    },
     async loadUserChannel () {
       try {
         const { data } = await getUserChannel()
@@ -61,6 +65,7 @@ export default {
   padding-top: 90px;
   padding-bottom: 50px;
 }
+
 .van-icon{
   position: fixed;
   right: 0;
