@@ -1,5 +1,5 @@
 <template>
-  <div class="question-Container">我是问答</div>
+  <div class="question-Container" style="color:pink">问答正在开发中...</div>
 </template>
 
 <script>

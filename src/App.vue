@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- 根路由出口 -->
-    <router-view></router-view>
+    <router-view/>
     <!-- /根路由出口 -->
   </div>
 </template>

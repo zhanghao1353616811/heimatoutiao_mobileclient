@@ -5,15 +5,15 @@
     <!-- /导航栏 -->
     <!-- 频道列表 -->
     <van-tabs v-model="active">
-      <van-icon @click="isChannelEditShow=true" slot="nav-right" name="wap-nav"></van-icon>
+      <van-icon @click="isChannelEditShow=true" slot="nav-right" name="wap-nav"/>
       <van-tab v-for="channel in userChannels" :title="channel.name" :key="channel.id">
         <!-- 文章列表 -->
-        <article-list :channel="channel"></article-list>
+        <article-list :channel="channel"/>
         <!-- /文章列表 -->
       </van-tab>
     </van-tabs>
     <!-- /频道列表 -->
-    <van-popup v-model="isChannelEditShow" position="bottom" :style="{height:'95%'}"
+    <van-popup v-model="isChannelEditShow" position="bottom" :style="{height:'93%'}"
     round closeable close-icon-position="top-left">
     <channel-edit :user-channels="userChannels"/>
     </van-popup>
@@ -53,7 +53,6 @@ export default {
   created () {
     this.loadUserChannel()
   }
-
 }
 </script>
 

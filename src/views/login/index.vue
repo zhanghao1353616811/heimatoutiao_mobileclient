@@ -1,7 +1,7 @@
 <template>
   <van-row class="login-Container">
     <!-- 导航栏 -->
-    <van-nav-bar title="登录"></van-nav-bar>
+    <van-nav-bar title="登录"/>
     <!-- /导航栏 -->
     <!-- 登录表单 -->
     <!--
@@ -19,14 +19,14 @@
       <!-- 在ValidationObserver中最初不验证 但你可以使用immediate来立即验证你的字段 -->
       <ValidationProvider immediate name="手机号" rules="required|mobile" >
         <van-field v-model="userInfo.mobile" placeholder="请输入手机号">
-          <van-icon slot="left-icon" class-prefix="icon" name="yidongmobile216"></van-icon>
+          <van-icon slot="left-icon" class-prefix="icon" name="yidongmobile216"/>
         </van-field>
       </ValidationProvider>
       <ValidationProvider immediate name="验证码" rules="required|code">
         <van-field v-model="userInfo.code" placeholder="请输入验证码" class="verification-code">
-          <van-icon slot="left-icon" class-prefix="icon" name="icon--"></van-icon>
+          <van-icon slot="left-icon" class-prefix="icon" name="icon--"/>
           <van-button @click="sendSmsCode" v-if="!isCountDownShow" round size="small" type="primary" slot="button">获取验证码</van-button>
-          <van-count-down @finish="isCountDownShow=false" v-else format="ss s" :time="1000*60" slot="button"></van-count-down>
+          <van-count-down @finish="isCountDownShow=false" v-else format="ss s" :time="1000*60" slot="button"/>
         </van-field>
       </ValidationProvider>
     </ValidationObserver>

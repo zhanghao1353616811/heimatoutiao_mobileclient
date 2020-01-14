@@ -6,31 +6,57 @@
       <van-button slot="right-icon" round type="danger" size="mini">编辑</van-button>
     </van-cell>
     <van-grid :column-num="4">
-        <van-grid-item v-for="channel in userChannels" :key="channel.id" :text="channel.name"></van-grid-item>
+      <van-grid-item v-for="channel in userChannels" :key="channel.id" :text="channel.name"/>
     </van-grid>
     <van-cell title="推荐频道">
       <span slot="icon" class="tip">点击添加频道</span>
-      <van-button slot="right-icon" round type="danger" size="mini">编辑</van-button>
     </van-cell>
     <van-grid :column-num="4">
-        <van-grid-item class="" v-for="value in 15" :key="value" text="推荐"></van-grid-item>
+      <van-grid-item @click="addChannels" v-for="channel in remainingChannels" :key="channel.id" :text="channel.name"/>
     </van-grid>
   </div>
 </template>
 
 <script>
+import { getAllChannels } from '@/api/channel'
+
 export default {
   name: 'channelEdit',
   props: {
     userChannels: {
-      type: Object,
+      type: Array,
       required: true
     }
   },
   data () {
     return {
-
+      allChannels: []// 所有频道
     }
+  },
+  methods: {
+    async addChannels () {
+      const { data } = this.remainingChannels()
+    },
+    async loadAllChannels () {
+      const { data } = await getAllChannels()
+      console.log(data)
+      this.allChannels = data.data.channels
+    }
+  },
+  computed: {
+    remainingChannels () {
+      const remainChannels = [] // 剩余频道
+      const { userChannels, allChannels } = this
+      allChannels.forEach(item => {
+        if (!userChannels.find(element => element.id === item.id)) {
+          remainChannels.push(item)
+        }
+      })
+      return remainChannels
+    }
+  },
+  created () {
+    this.loadAllChannels()
   }
 }
 </script>
