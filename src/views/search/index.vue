@@ -13,7 +13,7 @@
     <!-- /搜索栏 -->
 
     <!-- 搜索结果 -->
-    <search-result v-if="isSearchResultShow" :q="searchContent"/>
+    <search-result v-if="isSearchResultShow" :searchContent="searchContent"/>
     <!-- /搜索结果 -->
 
     <!-- 联想建议 -->
@@ -27,12 +27,15 @@
     <!-- 历史记录 -->
     <van-cell-group v-else>
       <van-cell title="历史记录">
-        <span>全部删除</span>
-        <span>&nbsp;&nbsp;完成</span>
-        <van-icon slot="right-icon" name="delete" color="#969799" />
+        <template v-if="isDeleteShow">
+          <span @click="searchHistories=[]">全部删除</span>
+          <span @click="isDeleteShow=false">&nbsp;&nbsp;完成</span>
+        </template>
+        <van-icon v-else @click="isDeleteShow=true" slot="right-icon" name="delete" color="#969799" />
       </van-cell>
-      <van-cell v-for="item in 3" :key="item" :title="item">
-        <van-icon slot="right-icon" name="close" color="#969799"/>
+      <van-cell @click="onHistoriesClick(search,index)" v-for="(search,index) in searchHistories" :key="index" :title="search">
+        <!-- v-show是否显示关闭图标 -->
+        <van-icon v-show="isDeleteShow" slot="right-icon" name="close" color="#969799"/>
       </van-cell>
     </van-cell-group>
     <!-- /历史记录 -->
@@ -40,7 +43,7 @@
 </template>
 <script>
 import searchResult from './components/search-result'
-import { getSuggestions } from '@/api/search'
+import { getSuggestions, getSearchHistories } from '@/api/search'
 
 export default {
   name: 'searchPage',
@@ -49,12 +52,35 @@ export default {
   },
   data () {
     return {
+      searchContent: '', // 搜索内容 联想建议
+      searchHistories: [], // 搜索历史记录
       searchSuggestions: [], // 联想建议
-      isSearchResultShow: false, // 搜索结果
-      searchContent: '' // 搜索内容 联想建议
+      isSearchResultShow: false, // 是否展示搜索结果
+      isDeleteShow: false // 删除历史记录的显示状态
     }
   },
   methods: {
+    onHistoriesClick (search, index) {
+      if (this.isDeleteShow) {
+        this.searchHistories.splice(index, 1)
+      } else {
+        this.onSearch(search)
+      }
+    },
+    onSearch (searchContent) {
+      // 1.更新搜索文本框的数据
+      this.searchContent = searchContent
+      // 2.记录搜索历史记录
+      const searchHistories = this.searchHistories
+      const index = searchHistories.indexOf(searchContent)
+      if (index !== -1) {
+        searchHistories.splice(index)
+      }
+      this.searchHistories.unshift(searchContent)
+      // 3.展示搜索结果
+      this.isSearchResultShow = true// 显示搜索结果
+    },
+    // 高亮显示搜索文字
     highlight (str) {
       const searchContent = this.searchContent
       const reg = RegExp(searchContent, 'gi') // g全局匹配 i忽略大小写
@@ -72,10 +98,6 @@ export default {
       this.searchSuggestions = data.data.options
       console.log(data)
       // 3.模板绑定
-    },
-    onSearch (q) {
-      this.searchContent = q
-      this.isSearchResultShow = true// 显示搜索结果
     },
     onCancel () {}
   }

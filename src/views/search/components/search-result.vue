@@ -12,7 +12,7 @@ import { getSearchResult } from '@/api/search'
 export default {
   name: 'search-result',
   props: {
-    q: {
+    searchContent: {
       type: String,
       required: true
     }
@@ -32,7 +32,7 @@ export default {
       const { data } = await getSearchResult({
         page: this.page,
         per_page: this.per_page,
-        q: this.q // 搜索关键词
+        q: this.searchContent // 搜索关键词
       })
       // 2.将数据添加到列表中
       console.log(data)
