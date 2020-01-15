@@ -26,7 +26,7 @@ request.defaults.transformResponse = [function (data) {
     return jsonBig.parse(data)
     // 它默认是这样的 JSON.parse(data)
   } catch (error) {
-    console.log('超出 JS 安全整数范围数字转换失败', error)
+    // console.log('超出 JS 安全整数范围数字转换失败', error)
     return {}
   }
 }]

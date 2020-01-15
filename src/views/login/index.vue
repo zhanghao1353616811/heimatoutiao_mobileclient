@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { userLogin, getSmsCode } from '@/api/user.js'
+import { userLogin, getSmsCode } from '@/api/user'
 import { validate } from 'vee-validate'
 
 export default {

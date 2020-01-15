@@ -24,6 +24,7 @@
 
 <script>
 import { getAllChannels } from '@/api/channel'
+import { setItem } from '@/utils/storage'
 
 export default {
   name: 'channelEdit',
@@ -70,6 +71,12 @@ export default {
         }
       })
       return remainChannels
+    }
+  },
+  watch: {
+    // 当 userChannels 发生变化，会调用该函数
+    userChannels (newValue) {
+      setItem('user-channels', newValue)
     }
   },
   created () {

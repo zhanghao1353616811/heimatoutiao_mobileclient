@@ -24,6 +24,7 @@
 import { getUserChannel } from '@/api/channel'
 import articleList from './components/article-list'
 import channelEdit from './components/channel-edit'
+import { getItem } from '@/utils/storage'
 
 export default {
   name: 'homePage',
@@ -45,9 +46,21 @@ export default {
     },
     async loadUserChannel () {
       try {
-        const { data } = await getUserChannel()
-        this.userChannels = data.data.channels
-        console.log(data)
+        // 1.声明变量存储频道数据
+        let channels = []
+        // 2.获取本地存储的频道列表
+        const localUserChannels = getItem('user-channels')
+        // 3.如果有本地存储的则使用本地存储
+        if (localUserChannels) {
+          channels = localUserChannels
+        } else {
+        // 4.如果没有本地存储的则使用接口的
+          const { data } = await getUserChannel()
+          // console.log(data)
+          channels = data.data.channels
+        }
+        // 5.将数据赋值给当前组件数据
+        this.userChannels = channels
       } catch (error) {
         console.log(error)
         this.$toast('获取数据失败')
