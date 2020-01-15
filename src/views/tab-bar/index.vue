@@ -1,7 +1,7 @@
 <template>
   <div class="tab-bar">
     <!-- 子路由出口 -->
-    <router-view/>
+    <router-view />
     <!-- /子路由出口 -->
     <!-- tab-bar -->
     <van-tabbar route>
@@ -23,5 +23,4 @@ export default {
 </script>
 
 <style>
-
 </style>

@@ -10,14 +10,15 @@
     <van-grid :gutter="10">
       <van-grid-item @click="onUserChannerClick(index)" v-for="(channel,index) in userChannels" :key="channel.id" class="channel-grid">
         <span slot="text" class="text" :class="{active:active===index}">{{channel.name}}</span>
-        <van-icon v-show="isEditShow &&index!==0" slot="icon" name="close" class="channel-icon"/>
+        <van-icon v-show="isEditShow &&index!==0" slot="icon" name="close" class="channel-icon" />
       </van-grid-item>
     </van-grid>
     <van-cell title="推荐频道" :border="false">
       <span slot="icon" class="tip">点击添加频道</span>
     </van-cell>
     <van-grid :gutter="10">
-      <van-grid-item @click="addChannel(channel)" v-for="channel in remainingChannels" :key="channel.id" :text="channel.name"/>
+      <van-grid-item @click="addChannel(channel)"
+      v-for="channel in remainingChannels" :key="channel.id" :text="channel.name"/>
     </van-grid>
   </div>
 </template>
@@ -117,14 +118,15 @@ export default {
   width: 80px;
   height: 43px;
   position: relative;
-  .van-grid-item__content{
+  .van-grid-item__content {
     background-color: rgb(244, 245, 246);
   }
-  .van-grid-item__text,.text{
+  .van-grid-item__text,
+  .text {
     font-size: 14px;
     color: #222;
   }
-  .active{
+  .active {
     color: red;
   }
 }

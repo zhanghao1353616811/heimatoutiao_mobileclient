@@ -1,21 +1,24 @@
 <template>
   <div class="home-Container">
     <!-- 导航栏 -->
-    <van-nav-bar title="首页" fixed/>
+    <van-nav-bar fixed class="home-nav-bar">
+      <div slot="left" class="home-logo"></div>
+      <van-button @click="$router.push('/search')" slot="right" icon="search" class="search-btn">搜索</van-button>
+    </van-nav-bar>
     <!-- /导航栏 -->
     <!-- 频道列表 -->
     <van-tabs v-model="active">
-      <van-icon @click="isChannelEditShow=true" slot="nav-right" name="wap-nav"/>
+      <van-icon @click="isChannelEditShow=true" slot="nav-right" name="wap-nav" class="edit-Icon" />
       <van-tab v-for="channel in userChannels" :title="channel.name" :key="channel.id">
         <!-- 文章列表 -->
-        <article-list :channel="channel"/>
+        <article-list :channel="channel" />
         <!-- /文章列表 -->
       </van-tab>
     </van-tabs>
     <!-- /频道列表 -->
     <van-popup v-model="isChannelEditShow" position="bottom" :style="{height:'93%'}"
-    round closeable close-icon-position="top-left">
-    <channel-edit :user-channels="userChannels" @switch="switchChannel" :active="active"/>
+      round closeable close-icon-position="top-left">
+      <channel-edit :user-channels="userChannels" @switch="switchChannel" :active="active" />
     </van-popup>
   </div>
 </template>
@@ -54,7 +57,7 @@ export default {
         if (localUserChannels) {
           channels = localUserChannels
         } else {
-        // 4.如果没有本地存储的则使用接口的
+          // 4.如果没有本地存储的则使用接口的
           const { data } = await getUserChannel()
           // console.log(data)
           channels = data.data.channels
@@ -74,12 +77,19 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.home-Container{
+.home-Container {
   padding-top: 90px;
   padding-bottom: 50px;
+  .home-logo {
+    width: 100px;
+    height: 30px;
+    position: absolute;
+    top: -37px;
+    background: url("~@/assets/images/logo-light.png") no-repeat;
+    background-size: cover;
+  }
 }
-
-.van-icon{
+.edit-Icon {
   position: fixed;
   right: 0;
   font-size: 26px;
@@ -87,12 +97,31 @@ export default {
   opacity: 0.8;
   background-color: #fff;
 }
-/deep/.van-tabs__wrap{
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 46px;
-    z-index: 1;
+/deep/.van-tabs__wrap {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 46px;
+  z-index: 1;
 }
-
+.search-btn{
+  border: none;
+  width: 175px;
+  height: 26px;
+  color: #fff;
+  font-size: 14px;
+  line-height: 24px;
+  border-radius: 12px;
+  position: absolute;
+  right: 0px;
+  top: -35px;
+  background-color: #5babfb;
+  .van-icon-search{
+    position: absolute;
+    top: 0;
+    right: 100px;
+    line-height: 30px;
+    font-size: 18px;
+  }
+}
 </style>

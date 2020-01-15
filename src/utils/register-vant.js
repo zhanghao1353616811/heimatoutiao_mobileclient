@@ -15,6 +15,7 @@ import {
   Toast,
   PullRefresh,
   Popup,
+  Search,
   Row,
   Col,
   Cell,
@@ -39,6 +40,7 @@ Vue.use(Button)
   .use(Toast)
   .use(PullRefresh)
   .use(Popup)
+  .use(Search)
   .use(Row)
   .use(Col)
   .use(Cell)

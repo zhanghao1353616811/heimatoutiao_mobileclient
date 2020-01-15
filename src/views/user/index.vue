@@ -3,7 +3,7 @@
     <van-nav-bar @click-left="$router.back()" :title="userInfo.name" left-arrow />
     <van-row class="user-info-container">
       <van-col class="user-info">
-        <van-image :src="userInfo.photo" class="user-infoImage" round fit="fill"/>
+        <van-image :src="userInfo.photo" class="user-infoImage" round fit="fill" />
         <van-row class="user-info-row">
           <van-col class="user-info-col">
             <van-row class="item">
