@@ -1,3 +1,7 @@
+/**
+ * 文章列表相关接口模块
+*/
+
 import request from '@/utils/request'
 
 // 获取文章列表数据

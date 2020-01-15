@@ -1,5 +1,5 @@
 /**
- * 文章频道接口模块
+ * 文章频道相关接口模块
  */
 import request from '@/utils/request'
 

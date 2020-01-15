@@ -24,10 +24,10 @@
 </template>
 
 <script>
-import { getUserChannel } from '@/api/channel'
 import articleList from './components/article-list'
 import channelEdit from './components/channel-edit'
 import { getItem } from '@/utils/storage'
+import { getUserChannel } from '@/api/channel'
 
 export default {
   name: 'homePage',

@@ -1,5 +1,5 @@
 /**
- * 用户请求相关模块
+ * 用户请求相关接口模块
  */
 import request from '@/utils/request.js'
 

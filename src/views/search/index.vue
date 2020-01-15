@@ -2,9 +2,9 @@
   <div class="search-container">
     <!-- 搜索栏 -->
     <!-- 在van-search 外层增加form标签且action不为空 即可在ios输入法中显示搜索按钮-->
-    <form action="/" slot="left">
-      <van-search v-model="value" @search="onSearch"
-        @cancel="onCancel"
+    <form action="/">
+      <van-search v-model="searchContent" @search="onSearch"
+        @cancel="onCancel" @focus="isSearchResultShow=false" @input="onSearchInput"
         placeholder="请输入搜索关键词"
         show-action
         background="#3296fa"
@@ -18,7 +18,7 @@
 
     <!-- 联想建议 -->
     <van-cell-group v-else-if="searchContent">
-      <van-cell v-for="item in 3" :key="item" :title="item" icon="search"></van-cell>
+      <van-cell v-for="(item,index) in suggestions" :key="index" :title="item" icon="search"></van-cell>
     </van-cell-group>
     <!-- /联想建议 -->
 
@@ -29,13 +29,16 @@
         <span>&nbsp;&nbsp;完成</span>
         <van-icon slot="right-icon" name="delete" color="#969799" />
       </van-cell>
-      <van-cell v-for="item in list" :key="item" :title="item">历史记录</van-cell>
+      <van-cell v-for="item in 3" :key="item" :title="item">
+        <van-icon slot="right-icon" name="close" color="#969799"/>
+      </van-cell>
     </van-cell-group>
     <!-- /历史记录 -->
   </div>
 </template>
 <script>
 import searchResult from './components/search-result'
+import { getSuggestions } from '@/api/search'
 
 export default {
   name: 'searchPage',
@@ -44,14 +47,28 @@ export default {
   },
   data () {
     return {
-      value: '',
-      list: [],
-      isSearchResultShow: 'false', // 搜索结果
-      searchContent: 'false' // 历史记录
+      suggestions: [],
+      isSearchResultShow: false, // 搜索结果
+      searchContent: '' // 搜索内容 联想建议
     }
   },
   methods: {
-    onSearch () {},
+    async onSearchInput () {
+      const searchContent = this.searchContent
+      // 1.请求获取数据
+      if (!searchContent) {
+        return
+      }
+      const { data } = await getSuggestions(searchContent)
+      // 2.将数据添加到组件实例中
+      this.suggestions = data.data.options
+      console.log(data)
+      // 3.模板绑定
+    },
+    onSearch () {
+    //   console.log('onSearch')
+      this.isSearchResultShow = true// 显示搜索结果
+    },
     onCancel () {}
   }
 }
