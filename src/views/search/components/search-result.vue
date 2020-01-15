@@ -1,7 +1,7 @@
 <template>
   <div class="search-result">
       <van-list @load="onloadSearchResult" v-model="loading" :finished="finished" finished-text="没有更多了">
-      <van-cell v-for="(search,index) in searchResult" :key="index" :title="search.title">历史记录</van-cell>
+      <van-cell v-for="(search,index) in searchResult" :key="index" :title="search.title"/>
     </van-list>
   </div>
 </template>
@@ -12,7 +12,7 @@ import { getSearchResult } from '@/api/search'
 export default {
   name: 'search-result',
   props: {
-    searchContent: {
+    q: {
       type: String,
       required: true
     }
@@ -32,7 +32,7 @@ export default {
       const { data } = await getSearchResult({
         page: this.page,
         per_page: this.per_page,
-        q: this.searchContent // 搜索关键词
+        q: this.q // 搜索关键词
       })
       // 2.将数据添加到列表中
       console.log(data)

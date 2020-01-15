@@ -3,7 +3,7 @@
     <!-- 搜索栏 -->
     <!-- 在van-search 外层增加form标签且action不为空 即可在ios输入法中显示搜索按钮-->
     <form action="/">
-      <van-search v-model="searchContent" @search="onSearch"
+      <van-search v-model="searchContent" @search="onSearch(searchContent)"
         @cancel="onCancel" @focus="isSearchResultShow=false" @input="onSearchInput"
         placeholder="请输入搜索关键词"
         show-action
@@ -13,12 +13,12 @@
     <!-- /搜索栏 -->
 
     <!-- 搜索结果 -->
-    <search-result v-if="isSearchResultShow" :searchContent="searchContent"/>
+    <search-result v-if="isSearchResultShow" :q="searchContent"/>
     <!-- /搜索结果 -->
 
     <!-- 联想建议 -->
     <van-cell-group v-else-if="searchContent">
-      <van-cell v-for="(search,index) in suggestions" :key="index" icon="search">
+      <van-cell @click="onSearch(search)" v-for="(search,index) in searchSuggestions" :key="index" icon="search">
         <div slot="title" v-html="highlight(search)"></div>
       </van-cell>
     </van-cell-group>
@@ -49,13 +49,12 @@ export default {
   },
   data () {
     return {
-      suggestions: [], // 联想建议
+      searchSuggestions: [], // 联想建议
       isSearchResultShow: false, // 搜索结果
       searchContent: '' // 搜索内容 联想建议
     }
   },
   methods: {
-
     highlight (str) {
       const searchContent = this.searchContent
       const reg = RegExp(searchContent, 'gi') // g全局匹配 i忽略大小写
@@ -70,12 +69,12 @@ export default {
       }
       const { data } = await getSuggestions(searchContent)
       // 2.将数据添加到组件实例中
-      this.suggestions = data.data.options
+      this.searchSuggestions = data.data.options
       console.log(data)
       // 3.模板绑定
     },
-    onSearch () {
-    //   console.log('onSearch')
+    onSearch (q) {
+      this.searchContent = q
       this.isSearchResultShow = true// 显示搜索结果
     },
     onCancel () {}
