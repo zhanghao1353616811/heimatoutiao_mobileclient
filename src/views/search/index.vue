@@ -18,7 +18,9 @@
 
     <!-- 联想建议 -->
     <van-cell-group v-else-if="searchContent">
-      <van-cell v-for="(item,index) in suggestions" :key="index" :title="item" icon="search"></van-cell>
+      <van-cell v-for="(item,index) in suggestions" :key="index" icon="search">
+        <div slot="title" v-html="highlight(item)"></div>
+      </van-cell>
     </van-cell-group>
     <!-- /联想建议 -->
 
@@ -53,6 +55,14 @@ export default {
     }
   },
   methods: {
+    // 参数source 原始字符串
+    // 参数keyword 需要高亮的关键词
+    // 返回值 替换之后的高亮字符串
+    highlight (str) {
+      const searchContent = this.searchContent
+      const reg = RegExp(searchContent, 'gi')
+      return str.replace(reg, `<span style="color:red">${searchContent}</span>`)
+    },
     async onSearchInput () {
       const searchContent = this.searchContent
       // 1.请求获取数据
