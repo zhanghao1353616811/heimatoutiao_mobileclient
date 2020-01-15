@@ -13,13 +13,13 @@
     <!-- /搜索栏 -->
 
     <!-- 搜索结果 -->
-    <search-result v-if="isSearchResultShow" />
+    <search-result v-if="isSearchResultShow" :searchContent="searchContent"/>
     <!-- /搜索结果 -->
 
     <!-- 联想建议 -->
     <van-cell-group v-else-if="searchContent">
-      <van-cell v-for="(item,index) in suggestions" :key="index" icon="search">
-        <div slot="title" v-html="highlight(item)"></div>
+      <van-cell v-for="(search,index) in suggestions" :key="index" icon="search">
+        <div slot="title" v-html="highlight(search)"></div>
       </van-cell>
     </van-cell-group>
     <!-- /联想建议 -->
@@ -49,18 +49,17 @@ export default {
   },
   data () {
     return {
-      suggestions: [],
+      suggestions: [], // 联想建议
       isSearchResultShow: false, // 搜索结果
       searchContent: '' // 搜索内容 联想建议
     }
   },
   methods: {
-    // 参数source 原始字符串
-    // 参数keyword 需要高亮的关键词
-    // 返回值 替换之后的高亮字符串
+
     highlight (str) {
       const searchContent = this.searchContent
-      const reg = RegExp(searchContent, 'gi')
+      const reg = RegExp(searchContent, 'gi') // g全局匹配 i忽略大小写
+      // 返回值 替换之后的高亮字符串  第一个参数是变量 则用正则表达式
       return str.replace(reg, `<span style="color:red">${searchContent}</span>`)
     },
     async onSearchInput () {
