@@ -48,3 +48,22 @@ export const deleteCollect = targetId => {
     url: `/app/v1_0/article/collections/${targetId}`
   })
 }
+
+// 获取对文章点赞数据
+export const addLike = (target) => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/article/likings',
+    data: {
+      target
+    }
+  })
+}
+
+// 获取对文章点赞数据
+export const deleteLike = targetId => {
+  return request({
+    method: 'DELETE',
+    url: `/app/v1_0/article/likings/${targetId}`
+  })
+}

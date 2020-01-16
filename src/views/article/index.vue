@@ -38,7 +38,7 @@
       <van-button class="write-btn" type="default" round size="small">写评论</van-button>
       <van-icon class="comment-icon" name="comment-o" />
       <van-icon @click="clickCollectOrCancel" color="orange" :name="ArticleDetails.is_collected?'star':'star-o'" />
-      <van-icon color="#e5645f" name="good-job-o" />
+      <van-icon @click="clickLikeOrCancel" color="#e5645f" :name="ArticleDetails.attitude===1?'good-job':'good-job-o'" />
       <van-icon class="share-icon" name="share" />
     </van-row>
     <!-- /底部区域 -->
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { getArticleDetails, addCollect, deleteCollect } from '@/api/article'
+import { getArticleDetails, addCollect, deleteCollect, addLike, deleteLike } from '@/api/article'
 
 export default {
   name: 'ArticlePage',
@@ -63,6 +63,29 @@ export default {
     }
   },
   methods: {
+    async clickLikeOrCancel () {
+      this.$toast.loading({
+        duration: 0, // 持续展示toast
+        message: '加载中...', // 文本提示内容
+        forbidClick: true // 是否禁止背景点击
+      })
+      try {
+        // 如果已点赞 则取消点赞
+        if (this.ArticleDetails.attitude === 1) {
+          const { data } = await deleteLike(this.articleId)
+          this.ArticleDetails.attitude = -1
+          this.$toast.success('取消点赞')
+        } else {
+        // 点赞
+          const { data } = await addLike(this.articleId)
+          this.ArticleDetails.attitude = 1
+          this.$toast.success('点赞成功')
+        }
+      } catch (error) {
+        console.log(error)
+        this.$toast.fail('操作失败')
+      }
+    },
     async clickCollectOrCancel () {
       this.$toast.loading({
         duration: 0, // 持续展示toast
@@ -109,6 +132,7 @@ export default {
 </script>
 <style scoped lang="less">
 @import "./github-markdown.css";
+
 .article-container {
   background: #fff;
   .article-box {
