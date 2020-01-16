@@ -66,7 +66,7 @@ export default {
         this.userChannels = channels
       } catch (error) {
         console.log(error)
-        this.$toast('加载数据失败')
+        this.$toast.fail('加载数据失败')
       }
     }
   },

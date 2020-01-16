@@ -77,10 +77,10 @@ export default {
       } catch (error) {
         console.log(error)
         if (error.response.status === 429) {
-          this.$toast('请勿重复操作')
+          this.$toast.fail('请勿重复操作')
           return
         }
-        this.$toast('发送失败')
+        this.$toast.fail('发送失败')
         // 发送失败关闭倒计时
         this.isCountDownShow = false
       }

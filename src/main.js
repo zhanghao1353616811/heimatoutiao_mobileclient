@@ -6,7 +6,7 @@ import store from './store'
 // 加载验证插件的初始配置
 import './utils/validation'
 
-//  rem适配:动态设置html标签字体大小
+// rem适配:动态设置html标签字体大小
 import 'amfe-flexible'
 
 // 加载注册Vant组件模块

@@ -37,7 +37,7 @@
     <van-row class="article-footer">
       <van-button class="write-btn" type="default" round size="small">写评论</van-button>
       <van-icon class="comment-icon" name="comment-o" />
-      <van-icon color="orange" name="star-o" />
+      <van-icon @click="clickCollectOrCancel" color="orange" :name="ArticleDetails.is_collected?'star':'star-o'" />
       <van-icon color="#e5645f" name="good-job-o" />
       <van-icon class="share-icon" name="share" />
     </van-row>
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { getArticleDetails } from '@/api/article'
+import { getArticleDetails, addCollect, deleteCollect } from '@/api/article'
 
 export default {
   name: 'ArticlePage',
@@ -63,6 +63,29 @@ export default {
     }
   },
   methods: {
+    async clickCollectOrCancel () {
+      this.$toast.loading({
+        duration: 0, // 持续展示toast
+        message: '加载中...', // 文本提示内容
+        forbidClick: true // 是否禁止背景点击
+      })
+      try {
+        // 如果已收藏 则取消收藏
+        if (this.ArticleDetails.is_collected) {
+          const { data } = await deleteCollect(this.articleId)
+          this.ArticleDetails.is_collected = false
+          this.$toast.success('取消收藏')
+        } else {
+        // 添加收藏
+          const { data } = await addCollect(this.articleId)
+          this.ArticleDetails.is_collected = true
+          this.$toast.success('收藏成功')
+        }
+      } catch (error) {
+        console.log(error)
+        this.$toast.fail('操作失败')
+      }
+    },
     async  loadArticleDetails () {
       this.loading = true
       try {
@@ -74,7 +97,7 @@ export default {
         this.ArticleDetails = data.data
       } catch (error) {
         console.log(error)
-        this.$toast('加载数据失败')
+        this.$toast.fail('加载数据失败')
       }
       this.loading = false
     }

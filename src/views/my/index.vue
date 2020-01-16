@@ -74,7 +74,7 @@ export default {
         this.user = data.data
       } catch (error) {
         // console.log(error)
-        this.$toast('加载数据失败')
+        this.$toast.fail('加载数据失败')
       }
     },
     async userLoginOut () {
