@@ -43,7 +43,9 @@
 </template>
 <script>
 import searchResult from './components/search-result'
+import { debounce } from 'lodash'
 import { getSuggestions, getSearchHistories } from '@/api/search'
+import { async } from 'q'
 
 export default {
   name: 'searchPage',
@@ -54,12 +56,16 @@ export default {
     return {
       searchContent: '', // 搜索内容 联想建议
       searchHistories: [], // 搜索历史记录
-      searchSuggestions: [], // 联想建议
+      searchSuggestions: [], // 联想记忆
       isSearchResultShow: false, // 是否展示搜索结果
       isDeleteShow: false // 删除历史记录的显示状态
     }
   },
   methods: {
+    // 搜索取消
+    onCancel () {
+      this.searchContent = ''
+    },
     onHistoriesClick (search, index) {
       if (this.isDeleteShow) {
         this.searchHistories.splice(index, 1)
@@ -87,7 +93,10 @@ export default {
       // 返回值 替换之后的高亮字符串  第一个参数是变量 则用正则表达式
       return str.replace(reg, `<span style="color:red">${searchContent}</span>`)
     },
-    async onSearchInput () {
+    // 联想记忆
+    // onSearchInput: async function (){} Es6完整写法
+    // debounce 函数 参数1: 函数 参数2: 防抖时间 返回值:防抖之后的函数 和参数1功能一样
+    onSearchInput: debounce(async function () {
       const searchContent = this.searchContent
       // 1.请求获取数据
       if (!searchContent) {
@@ -98,11 +107,13 @@ export default {
       this.searchSuggestions = data.data.options
       console.log(data)
       // 3.模板绑定
-    },
-    onCancel () {}
+    }, 200)
   }
 }
 </script>
 
 <style lang="less" scoped>
+.van-search__action{
+  background-color: #3296fa;
+}
 </style>
