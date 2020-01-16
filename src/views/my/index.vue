@@ -1,5 +1,5 @@
 <template>
-  <van-row class="my-Container">
+  <van-row class="my-container">
     <van-row v-if="$store.state.user" class="my-info">
       <van-row type="flex" align="center">
         <van-col span="21" class="my-image">
@@ -99,7 +99,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.my-Container {
+.my-container {
   background-color: #f1efef;
   .my-info {
     height: 182px;

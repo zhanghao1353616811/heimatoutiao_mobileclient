@@ -1,5 +1,5 @@
 <template>
-  <van-row class="login-Container">
+  <van-row class="login-container">
     <!-- 导航栏 -->
     <van-nav-bar title="登录" />
     <!-- /导航栏 -->
@@ -137,7 +137,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.login-Container {
+.login-container {
   .verification-code {
     height: 47px;
     display: flex;

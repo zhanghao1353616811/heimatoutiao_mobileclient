@@ -1,5 +1,5 @@
 <template>
-  <div class="search-Container">
+  <div class="search-container">
     <!-- 搜索栏 -->
     <!-- 在van-search 外层增加form标签且action不为空 即可在ios输入法中显示搜索按钮-->
     <form action="/">

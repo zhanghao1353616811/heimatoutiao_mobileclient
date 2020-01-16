@@ -1,5 +1,5 @@
 <template>
-  <div class="user-Container">
+  <div class="user-container">
     <van-nav-bar @click-left="$router.back()" :title="userInfo.name" left-arrow />
     <van-row class="user-info-container">
       <van-col class="user-info">
@@ -25,9 +25,7 @@
           </van-col>
           <div class="action">
             <van-button type="primary" size="small">私信</van-button>
-            <van-button type="info" size="small">
-              <van-icon slot="button" name="plus"></van-icon>关注
-            </van-button>
+            <van-button type="info" size="small">+关注</van-button>
           </div>
         </van-row>
       </van-col>
@@ -106,7 +104,7 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.user-Container {
+.user-container {
   font-size: 18px;
   .user-info-container {
     font-size: 12px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="home-Container">
+  <div class="home-container">
     <!-- 导航栏 -->
     <van-nav-bar fixed class="home-nav-bar">
       <div slot="left" class="home-logo"></div>
@@ -77,7 +77,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.home-Container {
+.home-container {
   padding-top: 90px;
   padding-bottom: 50px;
   .home-logo {
