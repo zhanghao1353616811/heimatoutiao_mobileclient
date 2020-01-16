@@ -20,7 +20,9 @@
               <van-col class="info-time">{{ArticleDetails.pubdate}}</van-col>
             </van-row>
           </van-col>
-          <van-button :type="ArticleDetails.is_followed?'default':'info'" :icon="ArticleDetails.is_followed?'':'plus'"
+          <!-- v-if=如果用户没登录||文章作者不是当前登录用户 -->
+          <van-button v-if="!$store.state.user||ArticleDetails.aut_id !==$store.state.user.id"
+            :type="ArticleDetails.is_followed?'default':'info'" :icon="ArticleDetails.is_followed?'':'plus'"
             class="follow-btn" round size="mini">{{ArticleDetails.is_followed?'已关注':'关注'}}
           </van-button>
         </van-row>
