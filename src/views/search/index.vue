@@ -42,10 +42,10 @@
   </div>
 </template>
 <script>
-import searchResult from './components/search-result'
 import { debounce } from 'lodash'
-import { getSuggestions, getSearchHistories } from '@/api/search'
-import { async } from 'q'
+import { getSuggestions } from '@/api/search'
+import { setItem, getItem } from '@/utils/storage'
+import searchResult from './components/search-result'
 
 export default {
   name: 'searchPage',
@@ -55,21 +55,30 @@ export default {
   data () {
     return {
       searchContent: '', // 搜索内容 联想建议
-      searchHistories: [], // 搜索历史记录
+      searchHistories: getItem('search-histories') || [], // 从本地获取存储数据 有数据就用第一个 没有为null 则v-for循环会报错 所以第二个用[]
       searchSuggestions: [], // 联想记忆
       isSearchResultShow: false, // 是否展示搜索结果
       isDeleteShow: false // 删除历史记录的显示状态
     }
   },
+  watch: {
+    // 监听 参数1: 改变后的数据 参数2: 变化之前的数据
+    searchHistories (val) {
+      // console.log(val)
+      setItem('search-histories', val) // 将搜索历史记录存储在本地
+    }
+  },
   methods: {
-    // 搜索取消
+    // 取消搜索
     onCancel () {
       this.searchContent = ''
     },
     onHistoriesClick (search, index) {
+      // 如果是删除状态 则执行删除操作
       if (this.isDeleteShow) {
         this.searchHistories.splice(index, 1)
       } else {
+        // 否则执行搜索操作
         this.onSearch(search)
       }
     },

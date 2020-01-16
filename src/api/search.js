@@ -22,11 +22,3 @@ export const getSearchResult = params => {
     params
   })
 }
-
-// 删除用户搜索历史
-export const getSearchHistories = params => {
-  return request({
-    method: 'GET',
-    url: '/app/v1_0/search/histories'
-  })
-}
