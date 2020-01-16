@@ -20,7 +20,9 @@
               <van-col class="info-time">{{ArticleDetails.pubdate}}</van-col>
             </van-row>
           </van-col>
-          <van-button class="follow-btn" round size="mini" type="info" icon="plus">关注</van-button>
+          <van-button :type="ArticleDetails.is_followed?'default':'info'" :icon="ArticleDetails.is_followed?'':'plus'"
+            class="follow-btn" round size="mini">{{ArticleDetails.is_followed?'已关注':'关注'}}
+          </van-button>
         </van-row>
         <Van-row v-html="ArticleDetails.content" class="markdown-body"></Van-row>
       </van-row>
@@ -37,8 +39,8 @@
     <van-row class="article-footer">
       <van-button class="write-btn" type="default" round size="small">写评论</van-button>
       <van-icon class="comment-icon" name="comment-o" />
-      <van-icon @click="clickCollectOrCancel" color="orange" :name="ArticleDetails.is_collected?'star':'star-o'" />
-      <van-icon @click="clickLikeOrCancel" color="#e5645f" :name="ArticleDetails.attitude===1?'good-job':'good-job-o'" />
+      <van-icon @click="clickCollectOrCancel" :name="ArticleDetails.is_collected?'star':'star-o'" color="orange" />
+      <van-icon @click="clickLikeOrCancel" :name="ArticleDetails.attitude===1?'good-job':'good-job-o'" color="#e5645f" />
       <van-icon class="share-icon" name="share" />
     </van-row>
     <!-- /底部区域 -->
@@ -64,6 +66,7 @@ export default {
   },
   methods: {
     async clickLikeOrCancel () {
+      // 两个作用：1、交互提示 2、防止网络慢用户连续不断的点击按钮请求
       this.$toast.loading({
         duration: 0, // 持续展示toast
         message: '加载中...', // 文本提示内容
@@ -72,12 +75,12 @@ export default {
       try {
         // 如果已点赞 则取消点赞
         if (this.ArticleDetails.attitude === 1) {
-          const { data } = await deleteLike(this.articleId)
+          await deleteLike(this.articleId)
           this.ArticleDetails.attitude = -1
           this.$toast.success('取消点赞')
         } else {
-        // 点赞
-          const { data } = await addLike(this.articleId)
+        // 否则添加点赞
+          await addLike(this.articleId)
           this.ArticleDetails.attitude = 1
           this.$toast.success('点赞成功')
         }
@@ -95,12 +98,12 @@ export default {
       try {
         // 如果已收藏 则取消收藏
         if (this.ArticleDetails.is_collected) {
-          const { data } = await deleteCollect(this.articleId)
+          await deleteCollect(this.articleId)
           this.ArticleDetails.is_collected = false
           this.$toast.success('取消收藏')
         } else {
         // 添加收藏
-          const { data } = await addCollect(this.articleId)
+          await addCollect(this.articleId)
           this.ArticleDetails.is_collected = true
           this.$toast.success('收藏成功')
         }
