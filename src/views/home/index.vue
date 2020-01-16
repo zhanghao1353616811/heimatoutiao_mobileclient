@@ -30,7 +30,7 @@ import { getItem } from '@/utils/storage'
 import { getUserChannel } from '@/api/channel'
 
 export default {
-  name: 'homePage',
+  name: 'HomePage',
   components: {
     articleList,
     channelEdit
@@ -66,7 +66,7 @@ export default {
         this.userChannels = channels
       } catch (error) {
         console.log(error)
-        this.$toast('获取数据失败')
+        this.$toast('加载数据失败')
       }
     }
   },
@@ -76,7 +76,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped lang="less">
 .home-container {
   padding-top: 90px;
   padding-bottom: 50px;

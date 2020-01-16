@@ -25,7 +25,8 @@
           </van-col>
           <div class="action">
             <van-button type="primary" size="small">私信</van-button>
-            <van-button type="info" size="small">+关注</van-button>
+            <van-button type="info" size="small" icon="plus">关注</van-button>
+            <!-- <van-button type="info" size="small">编辑资料</van-button> -->
           </div>
         </van-row>
       </van-col>
@@ -49,10 +50,10 @@
 
 <script>
 import { getUserById } from '@/api/user'
-import { getUserArticles } from '@/api/articles'
+import { getUserArticles } from '@/api/article'
 
 export default {
-  name: 'userPage',
+  name: 'UserPage',
   data () {
     return {
       list: [], // 列表数据
@@ -70,7 +71,7 @@ export default {
         // console.log(data)
       } catch (error) {
         console.log(error)
-        this.$toast('获取数据失败')
+        this.$toast('加载数据失败')
       }
     },
     async onLoadUser () {
@@ -103,7 +104,7 @@ export default {
 }
 </script>
 
-<style lang='less' scoped>
+<style scoped lang='less'>
 .user-container {
   font-size: 18px;
   .user-info-container {

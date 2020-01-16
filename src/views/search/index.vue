@@ -3,7 +3,7 @@
     <!-- 搜索栏 -->
     <!-- 在van-search 外层增加form标签且action不为空 即可在ios输入法中显示搜索按钮-->
     <form action="/">
-      <van-search v-model="searchContent" @cancel="onCancel" @focus="isSearchResultShow=false"
+      <van-search v-model="searchContent" @cancel="$router.back()" @focus="isSearchResultShow=false"
         @search="onSearch(searchContent)" @input="onSearchInput"
         placeholder="请输入搜索关键词" show-action background="#3296fa">
       </van-search>
@@ -39,6 +39,7 @@
     <!-- /历史记录 -->
   </div>
 </template>
+
 <script>
 import { debounce } from 'lodash'
 import { getSuggestions } from '@/api/search'
@@ -46,7 +47,7 @@ import { setItem, getItem } from '@/utils/storage'
 import searchResult from './components/search-result'
 
 export default {
-  name: 'searchPage',
+  name: 'SearchPage',
   components: {
     searchResult
   },
@@ -67,10 +68,6 @@ export default {
     }
   },
   methods: {
-    // 取消搜索
-    onCancel () {
-      this.searchContent = ''
-    },
     onHistoriesClick (search, index) {
       // 如果是删除状态 则执行删除操作
       if (this.isDeleteShow) {
@@ -119,7 +116,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped lang="less">
 .van-search__action{
   background-color: #3296fa;
 }

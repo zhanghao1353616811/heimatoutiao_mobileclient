@@ -60,7 +60,7 @@
 import { getUserInfo } from '@/api/user'
 
 export default {
-  name: 'myPage',
+  name: 'MyPage',
   data () {
     return {
       user: {}
@@ -74,7 +74,7 @@ export default {
         this.user = data.data
       } catch (error) {
         // console.log(error)
-        this.$toast('获取数据失败')
+        this.$toast('加载数据失败')
       }
     },
     async userLoginOut () {
@@ -98,7 +98,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped lang="less">
 .my-container {
   background-color: #f1efef;
   .my-info {

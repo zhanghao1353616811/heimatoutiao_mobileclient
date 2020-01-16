@@ -3,6 +3,7 @@
  */
 import request from '@/utils/request.js'
 
+// 获取用户登录数据
 export const userLogin = data => {
   // 具体的请求代码
   return request({
@@ -17,6 +18,7 @@ export const userLogin = data => {
   })
 }
 
+// 获取验证码数据
 export const getSmsCode = mobile => {
   return request({
     method: 'GET',

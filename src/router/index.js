@@ -16,7 +16,11 @@ const routes = [
   {
     name: 'article',
     path: '/article/:articleId',
-    component: () => import('@/views/article')
+    component: () => import('@/views/article'),
+    props: true // 将路由动态参数映射到组件的props中 更推荐这种做法
+    // 获取动态路由参数两种方式方式  1:this.$router.params.id获取
+    // 2. 将props设置为true 在组件中接收props映射过来的id
+    // 参考文档：https://router.vuejs.org/zh/guide/essentials/passing-props.html
   },
   {
     path: '/',

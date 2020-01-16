@@ -21,3 +21,11 @@ export const getArticleChannels = params => {
     url: '/app/v1_1/articles'
   })
 }
+
+// 获取新闻文章详情数据
+export const getArticleDetails = articleId => {
+  return request({
+    method: 'GET',
+    url: `/app/v1_0/articles/${articleId}`
+  })
+}

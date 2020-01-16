@@ -44,7 +44,7 @@ import { userLogin, getSmsCode } from '@/api/user'
 import { validate } from 'vee-validate'
 
 export default {
-  name: 'loginPage',
+  name: 'LoginPage',
   data () {
     return {
       isCountDownShow: false, // 是否显示倒计时
@@ -136,7 +136,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped lang="less">
 .login-container {
   .verification-code {
     height: 47px;

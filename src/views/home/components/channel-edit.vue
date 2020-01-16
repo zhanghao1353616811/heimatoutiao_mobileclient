@@ -28,7 +28,7 @@ import { getAllChannels } from '@/api/channel'
 import { setItem } from '@/utils/storage'
 
 export default {
-  name: 'channelEdit',
+  name: 'ChannelEdit',
   props: {
     userChannels: {
       type: Array,
@@ -86,7 +86,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped lang="less">
 .channel-edit {
   .channel-title {
     position: relative;

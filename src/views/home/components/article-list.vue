@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import { getArticleChannels } from '@/api/articles'
+import { getArticleChannels } from '@/api/article'
 
 export default {
-  name: 'articleListPage',
+  name: 'ArticleListPage',
   props: {
     channel: {
       type: Object, // 必须是对象
@@ -73,4 +73,5 @@ export default {
 </script>
 
 <style>
+
 </style>

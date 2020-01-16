@@ -16,6 +16,7 @@ import {
   PullRefresh,
   Popup,
   Search,
+  Loading,
   Row,
   Col,
   Cell,
@@ -41,6 +42,7 @@ Vue.use(Button)
   .use(PullRefresh)
   .use(Popup)
   .use(Search)
+  .use(Loading)
   .use(Row)
   .use(Col)
   .use(Cell)

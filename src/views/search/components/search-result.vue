@@ -11,7 +11,7 @@
 import { getSearchResult } from '@/api/search'
 
 export default {
-  name: 'search-result',
+  name: 'SearchResult',
   props: {
     searchContent: {
       type: String,
@@ -48,12 +48,7 @@ export default {
         this.finished = true
       }
       // 5.绑定模板
-    },
-    onLoad () {
-      console.log('onload')
     }
-  },
-  created () {
   }
 }
 </script>
