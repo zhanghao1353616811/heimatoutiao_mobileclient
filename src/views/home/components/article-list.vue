@@ -2,7 +2,8 @@
   <div class="article-list">
     <van-pull-refresh v-model="isLoading" @refresh="refreshLoadArticleList">
       <van-list @load="onLoadArticleList" v-model="loading" :finished="finished" loading-text="加载中..." finished-text="没有更多了">
-        <van-cell v-for="(article,index) in list" :key="index" :title="article.title" />
+        <van-cell @click="$router.push(`/article/${article.art_id}`)"
+        v-for="(article,index) in list" :key="index" :title="article.title" />
       </van-list>
     </van-pull-refresh>
   </div>

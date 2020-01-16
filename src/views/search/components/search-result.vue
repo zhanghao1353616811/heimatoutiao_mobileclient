@@ -1,8 +1,9 @@
 <template>
   <div class="search-result">
       <van-list @load="onloadSearchResult" v-model="loading" :finished="finished" finished-text="没有更多了">
-      <van-cell v-for="(search,index) in searchResult" :key="index" :title="search.title"/>
-    </van-list>
+        <van-cell @click="$router.push(`/article/${search.art_id}`)"
+        v-for="(search,index) in searchResult" :key="index" :title="search.title"/>
+      </van-list>
   </div>
 </template>
 

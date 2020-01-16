@@ -1,14 +1,12 @@
 <template>
-  <div class="search-container">
+  <div class="search-Container">
     <!-- 搜索栏 -->
     <!-- 在van-search 外层增加form标签且action不为空 即可在ios输入法中显示搜索按钮-->
     <form action="/">
-      <van-search v-model="searchContent" @search="onSearch(searchContent)"
-        @cancel="onCancel" @focus="isSearchResultShow=false" @input="onSearchInput"
-        placeholder="请输入搜索关键词"
-        show-action
-        background="#3296fa"
-      ></van-search>
+      <van-search v-model="searchContent" @cancel="onCancel" @focus="isSearchResultShow=false"
+        @search="onSearch(searchContent)" @input="onSearchInput"
+        placeholder="请输入搜索关键词" show-action background="#3296fa">
+      </van-search>
     </form>
     <!-- /搜索栏 -->
 

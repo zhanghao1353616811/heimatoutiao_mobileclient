@@ -42,8 +42,9 @@
         </van-col>
       </van-row>
     </van-row>
-    <van-list @load="onLoadUser" v-model="loading" :finished="finished" loading-text="加载中..." finished-text="没有更多了">
-      <van-cell v-for="(article,index) in list" :key="index" :title="article.title"></van-cell>
+    <van-list @load="onLoadUser" v-model="loading" :finished="finished" finished-text="没有更多了" loading-text="加载中...">
+      <van-cell @click="$router.push(`/article/${article.art_id}`)"
+      v-for="(article,index) in list" :key="index" :title="article.title"></van-cell>
     </van-list>
   </div>
 </template>
