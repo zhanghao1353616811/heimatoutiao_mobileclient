@@ -1,6 +1,6 @@
 <template>
   <div class="user-container">
-    <van-nav-bar @click-left="$router.back()" :title="userInfo.name" left-arrow />
+    <van-nav-bar @click-left="$router.back()" :title="userInfo.name" left-arrow fixed/>
     <van-row class="user-info-container">
       <van-col class="user-info">
         <van-image :src="userInfo.photo" class="user-infoImage" round fit="fill" />
@@ -112,6 +112,7 @@ export default {
     padding: 12px;
     display: flex;
     flex-direction: column;
+    padding: 60px 15px 15px;
     .user-info {
       .user-infoImage {
         width: 80px;

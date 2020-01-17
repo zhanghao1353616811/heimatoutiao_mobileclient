@@ -21,7 +21,8 @@
             </van-row>
           </van-col>
           <!-- v-if=如果用户没登录||文章作者不是当前登录用户 -->
-          <van-button v-if="!$store.state.user||ArticleDetails.aut_id !==$store.state.user.id"
+          <van-button @click="clickFollowOrCancel"
+            v-if="!$store.state.user||ArticleDetails.aut_id !==$store.state.user.id"
             :type="ArticleDetails.is_followed?'default':'info'" :icon="ArticleDetails.is_followed?'':'plus'"
             class="follow-btn" round size="mini">{{ArticleDetails.is_followed?'已关注':'关注'}}
           </van-button>
@@ -50,6 +51,7 @@
 </template>
 
 <script>
+import { addFollow, deleteFollow } from '@/api/user'
 import { getArticleDetails, addCollect, deleteCollect, addLike, deleteLike } from '@/api/article'
 
 export default {
@@ -67,12 +69,36 @@ export default {
     }
   },
   methods: {
-    async clickLikeOrCancel () {
+    async clickFollowOrCancel () {
       // 两个作用：1、交互提示 2、防止网络慢用户连续不断的点击按钮请求
       this.$toast.loading({
         duration: 0, // 持续展示toast
         message: '加载中...', // 文本提示内容
-        forbidClick: true // 是否禁止背景点击
+        forbidClick: true //  是否禁止背景点击
+      })
+      try {
+        const authorId = this.ArticleDetails.aut_id
+        // 如果已关注 则取消关注
+        if (this.ArticleDetails.is_followed) {
+          await deleteFollow(authorId)
+          this.ArticleDetails.is_followed = false
+          this.$toast.success('取消关注')
+        } else {
+        // 否则添加关注
+          await addFollow(authorId)
+          this.ArticleDetails.is_followed = true
+          this.$toast.success('关注成功')
+        }
+      } catch (error) {
+        console.log(error)
+        this.$toast.fail('操作失败')
+      }
+    },
+    async clickLikeOrCancel () {
+      this.$toast.loading({
+        duration: 0,
+        message: '加载中...',
+        forbidClick: true
       })
       try {
         // 如果已点赞 则取消点赞
@@ -93,9 +119,9 @@ export default {
     },
     async clickCollectOrCancel () {
       this.$toast.loading({
-        duration: 0, // 持续展示toast
-        message: '加载中...', // 文本提示内容
-        forbidClick: true // 是否禁止背景点击
+        duration: 0,
+        message: '加载中...',
+        forbidClick: true
       })
       try {
         // 如果已收藏 则取消收藏

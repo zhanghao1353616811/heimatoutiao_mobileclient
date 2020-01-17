@@ -7,10 +7,23 @@ Vue.use(VueRouter)
 
 // 配置路由表
 const routes = [
+  // 登录
   {
     name: 'login',
     path: '/login',
     component: () => import('@/views/login')
+  },
+  // 用户
+  {
+    name: 'user',
+    path: '/user/:userId',
+    component: () => import('@/views/user')
+  },
+  // 搜索
+  {
+    name: 'search',
+    path: '/search',
+    component: () => import('@/views/search')
   },
   // 放到一级路由
   {
@@ -22,6 +35,7 @@ const routes = [
     // 2. 将props设置为true 在组件中接收props映射过来的id
     // 参考文档：https://router.vuejs.org/zh/guide/essentials/passing-props.html
   },
+
   {
     path: '/',
     component: () => import('@/views/tab-bar'),
@@ -49,18 +63,6 @@ const routes = [
         name: 'my',
         path: '/my',
         component: () => import('@/views/my')
-      },
-      // 用户 组件放在二级路由
-      {
-        name: 'user',
-        path: '/user/:userId',
-        component: () => import('@/views/user')
-      },
-      // 搜索 组件放在二级路由
-      {
-        name: 'search',
-        path: 'search',
-        component: () => import('@/views/search')
       }
     ]
   }

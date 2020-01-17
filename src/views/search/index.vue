@@ -2,7 +2,7 @@
   <div class="search-container">
     <!-- 搜索栏 -->
     <!-- 在van-search 外层增加form标签且action不为空 即可在ios输入法中显示搜索按钮-->
-    <form action="/">
+    <form action="/" class="search-content">
       <van-search v-model="searchContent" @cancel="$router.back()" @focus="isSearchResultShow=false"
         @search="onSearch(searchContent)" @input="onSearchInput"
         placeholder="请输入搜索关键词" show-action background="#3296fa">
@@ -11,11 +11,11 @@
     <!-- /搜索栏 -->
 
     <!-- 搜索结果 -->
-    <search-result v-if="isSearchResultShow" :searchContent="searchContent"/>
+    <search-result v-if="isSearchResultShow" :searchContent="searchContent" class="search-result"/>
     <!-- /搜索结果 -->
 
     <!-- 联想建议 -->
-    <van-cell-group v-else-if="searchContent">
+    <van-cell-group v-else-if="searchContent" class="search-suggestions">
       <van-cell @click="onSearch(search)" v-for="(search,index) in searchSuggestions" :key="index" icon="search">
         <div slot="title" v-html="highlight(search)"></div>
       </van-cell>
@@ -23,8 +23,8 @@
     <!-- /联想建议 -->
 
     <!-- 历史记录 -->
-    <van-cell-group v-else>
-      <van-cell title="历史记录">
+    <van-cell-group v-else class="search-histories">
+      <van-cell center title="历史记录">
         <template v-if="isDeleteShow">
           <span @click="searchHistories=[]">全部删除</span>
           <span @click="isDeleteShow=false">&nbsp;&nbsp;完成</span>
@@ -119,5 +119,14 @@ export default {
 <style scoped lang="less">
 .van-search__action{
   background-color: #3296fa;
+}
+.search-content{
+  position: fixed;
+  width: 100%;
+  height: 54px;
+  z-index: 1;
+}
+.search-result,.search-suggestions,.search-histories{
+  padding: 55px 0px 0;
 }
 </style>
