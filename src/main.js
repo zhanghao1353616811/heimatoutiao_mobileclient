@@ -16,6 +16,9 @@ import './utils/register-vant'
 // 注意:一定要把我们自己的样式引到第三方组件样式之后 不然会层叠样式
 import './styles/index.less'
 
+// 加载初始日期时间库
+import './utils/datetime'
+
 Vue.config.productionTip = false
 
 // 注意 所有初始化的配置起码都应在new Vue根实例之前

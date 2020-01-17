@@ -112,7 +112,7 @@ export default {
     padding: 12px;
     display: flex;
     flex-direction: column;
-    padding: 60px 15px 15px;
+    padding: 60px 10px 10px;
     .user-info {
       .user-infoImage {
         width: 80px;

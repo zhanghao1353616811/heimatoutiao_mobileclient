@@ -17,12 +17,12 @@
             <van-image :src="ArticleDetails.aut_photo" class="avatar" round fit="cover"/>
             <van-row class="info-text">
               <van-col class="info-name">{{ArticleDetails.aut_name}}</van-col>
-              <van-col class="info-time">{{ArticleDetails.pubdate}}</van-col>
+              <van-col class="info-time">{{ArticleDetails.pubdate|relativeTime}}</van-col>
             </van-row>
           </van-col>
           <!-- v-if=如果用户没登录||文章作者不是当前登录用户 -->
-          <van-button @click="clickFollowOrCancel"
-            v-if="!$store.state.user||ArticleDetails.aut_id !==$store.state.user.id"
+          <van-button v-if="!$store.state.user||ArticleDetails.aut_id !==$store.state.user.id"
+            @click="clickFollowOrCancel" :loading="isFollowLoadingShow" loading-type="spinner"
             :type="ArticleDetails.is_followed?'default':'info'" :icon="ArticleDetails.is_followed?'':'plus'"
             class="follow-btn" round size="mini">{{ArticleDetails.is_followed?'已关注':'关注'}}
           </van-button>
@@ -65,40 +65,38 @@ export default {
   data () {
     return {
       loading: false,
-      ArticleDetails: {} // 文章详情
+      ArticleDetails: {}, // 文章详情
+      isFollowLoadingShow: false
     }
   },
   methods: {
     async clickFollowOrCancel () {
-      // 两个作用：1、交互提示 2、防止网络慢用户连续不断的点击按钮请求
-      this.$toast.loading({
-        duration: 0, // 持续展示toast
-        message: '加载中...', // 文本提示内容
-        forbidClick: true //  是否禁止背景点击
-      })
+      // 开启按钮的loading状态
+      this.isFollowLoadingShow = true
       try {
         const authorId = this.ArticleDetails.aut_id
         // 如果已关注 则取消关注
         if (this.ArticleDetails.is_followed) {
           await deleteFollow(authorId)
-          this.ArticleDetails.is_followed = false
-          this.$toast.success('取消关注')
         } else {
         // 否则添加关注
           await addFollow(authorId)
-          this.ArticleDetails.is_followed = true
-          this.$toast.success('关注成功')
         }
+        // 更新视图
+        this.ArticleDetails.is_followed = !this.ArticleDetails.is_followed
       } catch (error) {
         console.log(error)
         this.$toast.fail('操作失败')
       }
+      // 关闭按钮的 loading 状态
+      this.isFollowLoadingShow = false
     },
     async clickLikeOrCancel () {
+      // 两个作用：1、交互提示 2、防止网络慢用户连续不断的点击按钮请求
       this.$toast.loading({
-        duration: 0,
-        message: '加载中...',
-        forbidClick: true
+        duration: 0, // 持续展示toast
+        message: '加载中...', // 文本提示内容
+        forbidClick: true //  是否禁止背景点击
       })
       try {
         // 如果已点赞 则取消点赞
