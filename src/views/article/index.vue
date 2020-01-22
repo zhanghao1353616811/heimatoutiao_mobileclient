@@ -27,7 +27,12 @@
             class="follow-btn" round size="mini">{{ArticleDetails.is_followed?'已关注':'关注'}}
           </van-button>
         </van-row>
-        <Van-row v-html="ArticleDetails.content" class="markdown-body"></Van-row>
+        <!--文章内容 -->
+        <Van-row v-html="ArticleDetails.content" class="markdown-body" />
+        <!-- /文章内容 -->
+        <!-- 文章评论 -->
+        <article-comment :article-id="articleId"/>
+        <!-- /文章评论 -->
       </van-row>
       <!-- /文章详情 -->
       <!-- 加载失败提示 -->
@@ -53,9 +58,13 @@
 <script>
 import { addFollow, deleteFollow } from '@/api/user'
 import { getArticleDetails, addCollect, deleteCollect, addLike, deleteLike } from '@/api/article'
+import articleComment from './components/article-comment'
 
 export default {
   name: 'ArticlePage',
+  components: {
+    articleComment
+  },
   props: {
     articleId: {
       type: String,
@@ -145,7 +154,7 @@ export default {
         // 第二种方式获取id：props:true 将动态路由参数映射到组件props中 在通过this.articleId调用
         const { data } = await getArticleDetails(this.articleId)
         // JSON.parse('abcdefg')  用json.parse测试数据加载失败
-        console.log(data)
+        // console.log(data)
         this.ArticleDetails = data.data
       } catch (error) {
         console.log(error)
@@ -159,6 +168,7 @@ export default {
   }
 }
 </script>
+
 <style scoped lang="less">
 @import "./github-markdown.css";
 
