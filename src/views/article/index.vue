@@ -30,6 +30,7 @@
         <!--文章内容 -->
         <Van-row v-html="ArticleDetails.content" class="markdown-body" />
         <!-- /文章内容 -->
+        <van-row class="comment-list-title">全部评论</van-row>
         <!-- 文章评论 -->
         <article-comment :article-id="articleId"/>
         <!-- /文章评论 -->
@@ -39,19 +40,29 @@
       <van-row v-else class="article-error">
         <img src="../../assets/images/no-network.png" alt="no-network"/>
         <p class="error-text">网络不给力哦</p>
-        <van-button @click="loadArticleDetails" class="error-btn" round type="default" size="small" color="#ccc">点击重试</van-button>
+        <van-button @click="loadArticleDetails"
+          class="error-btn" round type="default" size="small" color="#ccc">点击重试
+        </van-button>
       </van-row>
       <!-- /加载失败提示 -->
     </van-row>
     <!-- 底部区域 -->
     <van-row class="article-footer">
-      <van-button class="write-btn" type="default" round size="small">写评论</van-button>
+      <van-button @click="isArticleCommentShow=true" class="write-btn" type="default" round size="small">写评论</van-button>
       <van-icon class="comment-icon" name="comment-o" />
       <van-icon @click="clickCollectOrCancel" :name="ArticleDetails.is_collected?'star':'star-o'" color="orange" />
       <van-icon @click="clickLikeOrCancel" :name="ArticleDetails.attitude===1?'good-job':'good-job-o'" color="#e5645f" />
       <van-icon class="share-icon" name="share" />
     </van-row>
     <!-- /底部区域 -->
+    <!-- 发布文章评论 -->
+    <van-popup v-model="isArticleCommentShow" position="bottom" :style="{height:'18%'}">
+      <!-- 在组件上使用 v-model 本质父子通信 相当于 :value="postMessage"
+       @input="postMessage=事件参数" 子组件通过$event事件参数传给父组件 事件参数赋值给 postMessage
+      -->
+      <post-comment v-model="postMessage" @click-post="onPost"/>
+    </van-popup>
+    <!-- /发布文章评论 -->
   </div>
 </template>
 
@@ -59,10 +70,12 @@
 import { addFollow, deleteFollow } from '@/api/user'
 import { getArticleDetails, addCollect, deleteCollect, addLike, deleteLike } from '@/api/article'
 import articleComment from './components/article-comment'
+import postComment from './components/post-comment'
 
 export default {
   name: 'ArticlePage',
   components: {
+    postComment,
     articleComment
   },
   props: {
@@ -75,10 +88,15 @@ export default {
     return {
       loading: false,
       ArticleDetails: {}, // 文章详情
-      isFollowLoadingShow: false
+      isFollowLoadingShow: false,
+      isArticleCommentShow: false,
+      postMessage: ''
     }
   },
   methods: {
+    onPost () {
+      console.log('发布次数。。。')
+    },
     async clickFollowOrCancel () {
       // 开启按钮的loading状态
       this.isFollowLoadingShow = true
@@ -216,6 +234,16 @@ export default {
         height: 30px;
       }
     }
+    .comment-list-title{
+      box-sizing: border-box;
+      width: 100%;
+      padding: 20px 0px 10px;
+      overflow: hidden;
+      color: #333;
+      font-size: 16px;
+      line-height: 44px;
+      background-color: #fff;
+     }
     .article-error {
       padding-top: 100px;
       text-align: center;

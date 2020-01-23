@@ -2,9 +2,6 @@
   <div class="article-comment">
       <!-- 评论列表 -->
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了..." @load="onLoadArticleComments">
-          <!-- <van-cell v-for="(item,index) in list" :key="index" :title="item.content">
-
-          </van-cell> -->
           <comment-item v-for="(item,index) in list" :key="index" :comment="item"/>
       </van-list>
       <!-- /评论列表 -->
