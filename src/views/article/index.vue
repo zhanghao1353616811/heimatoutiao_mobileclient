@@ -20,8 +20,8 @@
               <van-col class="info-time">{{ArticleDetails.pubdate|relativeTime}}</van-col>
             </van-row>
           </van-col>
-          <!-- v-if=如果用户没登录||文章作者不是当前登录用户 -->
-          <van-button v-if="!$store.state.user||ArticleDetails.aut_id !==$store.state.user.id"
+          <!-- v-if=如果用户没登录||文章作者不是当前登录用户 !$store.state.user=!user -->
+          <van-button v-if="!user||ArticleDetails.aut_id !==$store.state.user.id"
             @click="clickFollowOrCancel" :loading="isFollowLoadingShow" loading-type="spinner"
             :type="ArticleDetails.is_followed?'default':'info'" :icon="ArticleDetails.is_followed?'':'plus'"
             class="follow-btn" round size="mini">{{ArticleDetails.is_followed?'已关注':'关注'}}
@@ -32,7 +32,7 @@
         <!-- /文章内容 -->
         <van-row class="comment-list-title">全部评论</van-row>
         <!-- 文章评论 -->
-        <article-comment :article-id="articleId"/>
+        <article-comment ref="article-comment" :article-id="articleId"/>
         <!-- /文章评论 -->
       </van-row>
       <!-- /文章详情 -->
@@ -48,7 +48,7 @@
     </van-row>
     <!-- 底部区域 -->
     <van-row class="article-footer">
-      <van-button @click="isArticleCommentShow=true" class="write-btn" type="default" round size="small">写评论</van-button>
+      <van-button @click="isPostCommentShow=true" class="write-btn" type="default" round size="small">写评论</van-button>
       <van-icon class="comment-icon" name="comment-o" />
       <van-icon @click="clickCollectOrCancel" :name="ArticleDetails.is_collected?'star':'star-o'" color="orange" />
       <van-icon @click="clickLikeOrCancel" :name="ArticleDetails.attitude===1?'good-job':'good-job-o'" color="#e5645f" />
@@ -56,17 +56,19 @@
     </van-row>
     <!-- /底部区域 -->
     <!-- 发布文章评论 -->
-    <van-popup v-model="isArticleCommentShow" position="bottom" :style="{height:'18%'}">
+    <van-popup v-model="isPostCommentShow" position="bottom" :style="{height:'18%'}">
       <!-- 在组件上使用 v-model 本质父子通信 相当于 :value="postMessage"
        @input="postMessage=事件参数" 子组件通过$event事件参数传给父组件 事件参数赋值给 postMessage
-      -->
-      <post-comment v-model="postMessage" @click-post="onPost"/>
+      --><!--父组件没有list  list在子组件中 通过ref获取子组件list-->
+      <post-comment v-model="postMessage" @click-post="onPostComment"/>
     </van-popup>
     <!-- /发布文章评论 -->
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { addPostComments } from '@/api/comment'
 import { addFollow, deleteFollow } from '@/api/user'
 import { getArticleDetails, addCollect, deleteCollect, addLike, deleteLike } from '@/api/article'
 import articleComment from './components/article-comment'
@@ -86,16 +88,40 @@ export default {
   },
   data () {
     return {
-      loading: false,
+      loading: true, // 文章加载中的 loading 状态
       ArticleDetails: {}, // 文章详情
-      isFollowLoadingShow: false,
-      isArticleCommentShow: false,
-      postMessage: ''
+      isFollowLoadingShow: false, // 关注按钮的 loading 状态
+      isPostCommentShow: false, // 发布评论的弹层显示状态
+      postMessage: '' // 发布评论内容
     }
   },
   methods: {
-    onPost () {
-      console.log('发布次数。。。')
+    async onPostComment () {
+      this.$toast.loading({
+        duration: 0, // 持续展示 toast
+        message: '发布中...',
+        forbidClick: true // 是否禁止背景点击
+      })
+      try {
+        const { data } = await addPostComments({
+          target: this.articleId, // 评论的目标id（评论文章即为文章id 对评论进行回复则为评论id）
+          content: this.postMessage // 评论内容
+        // art_id 文章id 对评论内容发表回复时 需要传递此参数 表明所属文章id 对文章进行评论 不要传此参数
+        })
+        // console.log(data)
+        // 清空文本框
+        this.postMessage = ''
+        // 关闭弹层
+        this.isPostCommentShow = false
+        // 将数据添加到列表中
+        // this.$refs['post-comment'] 没法直接点 因为有特殊符号
+        this.$refs['article-comment'].list.unshift(data.data.new_obj)
+        this.$toast.success('发布成功')
+      } catch (error) {
+        console.log(error)
+        this.$toast.fail('发布失败')
+        // this.postMessage = ''
+      }
     },
     async clickFollowOrCancel () {
       // 开启按钮的loading状态
@@ -180,6 +206,9 @@ export default {
       }
       this.loading = false
     }
+  },
+  computed: {
+    ...mapState(['user'])
   },
   created () {
     this.loadArticleDetails()

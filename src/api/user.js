@@ -54,9 +54,9 @@ export const addFollow = target => {
 }
 
 // 获取取消关注用户
-export const deleteFollow = targetId => {
+export const deleteFollow = userId => {
   return request({
     method: 'DELETE',
-    url: `/app/v1_0/user/followings/${targetId}`
+    url: `/app/v1_0/user/followings/${userId}`
   })
 }

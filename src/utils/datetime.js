@@ -19,6 +19,6 @@ moment.locale('zh-cn')
 Vue.filter('relativeTime', value => {
   // value 谁用过滤器 value就是谁 其实就是一个方法 传了一个参数 返回一个值
   // console.log(value)
-  return moment(value).startOf('hour').fromNow() // 计算相对时间 传入的时间 给转化成moment自己的日期格式对象
+  return moment(value).startOf('second').fromNow() // 计算相对时间 传入的时间 给转化成moment自己的日期格式对象
   // startOf().formNOw() 相对现在 开始计算时间 参数 'hour'相对时间精度
 })
