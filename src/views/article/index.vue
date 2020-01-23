@@ -65,7 +65,7 @@
     <!-- /发布文章评论 -->
     <!-- 评论回复 -->
     <van-popup v-model="isReplyShow" position="bottom" :style="{height:'90%'}">
-      <comment-replay :comment="currentComment"/>
+      <comment-reply :article-id="articleId" :comment="currentComment" @click-close="isReplyShow=false"/>
     </van-popup>
     <!-- /评论回复 -->
   </div>
@@ -78,14 +78,14 @@ import { addFollow, deleteFollow } from '@/api/user'
 import { getArticleDetails, addCollect, deleteCollect, addLike, deleteLike } from '@/api/article'
 import articleComment from './components/article-comment'
 import postComment from './components/post-comment'
-import commentReplay from './components/comment-replay'
+import commentReply from './components/comment-reply'
 
 export default {
   name: 'ArticlePage',
   components: {
     postComment,
     articleComment,
-    commentReplay
+    commentReply
   },
   props: {
     articleId: {
