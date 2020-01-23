@@ -30,9 +30,9 @@
         <!--文章内容 -->
         <Van-row v-html="ArticleDetails.content" class="markdown-body" />
         <!-- /文章内容 -->
-        <van-row class="comment-list-title">全部评论</van-row>
+         <van-cell title="全部评论" class="comment-list-title"/>
         <!-- 文章评论 -->
-        <article-comment ref="article-comment" :article-id="articleId"/>
+        <article-comment @click-reply="onClickReplyComment" ref="article-comment" :article-id="articleId"/>
         <!-- /文章评论 -->
       </van-row>
       <!-- /文章详情 -->
@@ -63,22 +63,29 @@
       <post-comment v-model="postMessage" @click-post="onPostComment"/>
     </van-popup>
     <!-- /发布文章评论 -->
+    <!-- 评论回复 -->
+    <van-popup v-model="isReplyShow" position="bottom" :style="{height:'90%'}">
+      <comment-replay :comment="currentComment"/>
+    </van-popup>
+    <!-- /评论回复 -->
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import { addPostComments } from '@/api/comment'
+import { addComments } from '@/api/comment'
 import { addFollow, deleteFollow } from '@/api/user'
 import { getArticleDetails, addCollect, deleteCollect, addLike, deleteLike } from '@/api/article'
 import articleComment from './components/article-comment'
 import postComment from './components/post-comment'
+import commentReplay from './components/comment-replay'
 
 export default {
   name: 'ArticlePage',
   components: {
     postComment,
-    articleComment
+    articleComment,
+    commentReplay
   },
   props: {
     articleId: {
@@ -92,10 +99,17 @@ export default {
       ArticleDetails: {}, // 文章详情
       isFollowLoadingShow: false, // 关注按钮的 loading 状态
       isPostCommentShow: false, // 发布评论的弹层显示状态
-      postMessage: '' // 发布评论内容
+      postMessage: '', // 发布评论内容
+      isReplyShow: false, // 展示评论回复弹层
+      currentComment: {}// 点击回复的那个评论项
     }
   },
   methods: {
+    onClickReplyComment (comment) {
+      // 将点击回复所在的评论对象记录起来
+      this.currentComment = comment
+      this.isReplyShow = true
+    },
     async onPostComment () {
       this.$toast.loading({
         duration: 0, // 持续展示 toast
@@ -103,24 +117,24 @@ export default {
         forbidClick: true // 是否禁止背景点击
       })
       try {
-        const { data } = await addPostComments({
+        const { data } = await addComments({
           target: this.articleId, // 评论的目标id（评论文章即为文章id 对评论进行回复则为评论id）
           content: this.postMessage // 评论内容
         // art_id 文章id 对评论内容发表回复时 需要传递此参数 表明所属文章id 对文章进行评论 不要传此参数
         })
         // console.log(data)
-        // 清空文本框
-        this.postMessage = ''
-        // 关闭弹层
-        this.isPostCommentShow = false
         // 将数据添加到列表中
         // this.$refs['post-comment'] 没法直接点 因为有特殊符号
         this.$refs['article-comment'].list.unshift(data.data.new_obj)
         this.$toast.success('发布成功')
+        // 清空文本框
+        this.postMessage = ''
+        // 关闭弹层
+        this.isPostCommentShow = false
       } catch (error) {
         console.log(error)
         this.$toast.fail('发布失败')
-        // this.postMessage = ''
+        this.postMessage = ''
       }
     },
     async clickFollowOrCancel () {
@@ -264,14 +278,8 @@ export default {
       }
     }
     .comment-list-title{
-      box-sizing: border-box;
-      width: 100%;
-      padding: 20px 0px 10px;
-      overflow: hidden;
+      padding: 20px 0 20px;
       color: #333;
-      font-size: 16px;
-      line-height: 44px;
-      background-color: #fff;
      }
     .article-error {
       padding-top: 100px;

@@ -1,26 +1,27 @@
 <template>
-  <div class="article-comment">
-      <!-- 评论列表 -->
-      <van-list v-model="loading" :finished="finished" finished-text="没有更多了..." @load="onLoadArticleComments">
-          <comment-item @click-reply="$emit('click-reply',$event)"
-          v-for="(item,index) in list" :key="index" :comment="item" />
-      </van-list>
-      <!-- /评论列表 -->
-  </div>
+    <div class="comment-replay">
+        <van-nav-bar title="0条回复">
+            <van-icon slot="left" name="cross" />
+        </van-nav-bar>
+        <comment-item :comment="comment"/>
+        <van-cell title="全部评论" />
+        <van-list @load="onLoadComment" v-model="loading" :finished="finished" finished-text="没有更多了">
+            <comment-item :comment="comment" v-for="(comment,index) in list" :key="index"/>
+        </van-list>
+    </div>
 </template>
 
 <script>
 import commentItem from './comment-item'
 import { getComments } from '@/api/comment'
-
 export default {
-  name: 'ArticleComment',
+  name: 'CommentReplay',
   components: {
     commentItem
   },
   props: {
-    articleId: {
-      type: [Number, String, Object],
+    comment: {
+      type: Object,
       required: true
     }
   },
@@ -34,11 +35,11 @@ export default {
     }
   },
   methods: {
-    // 1.请求获取数据
-    async onLoadArticleComments () {
+    async onLoadComment () {
+      // 1.请求获取数据
       const { data } = await getComments({
-        type: 'a', // a-对文章(article)的评论 c-对评论(comment)的回复
-        source: this.articleId, // 源id 文章id或评论id
+        type: 'c', // a-对文章(article)的评论 c-对评论(comment)的回复
+        source: this.comment.com_id.toString(), // 源id 文章id或评论id
         offset: this.offset, // 获取评论数据的偏移量 值为评论id 表示从此id的数据向后取 不传表示从第一页开始读取数据
         limit: this.limit // 获取的评论数据个数 不传表示采用后端服务设定的默认每页数据量
       })
@@ -48,6 +49,8 @@ export default {
       this.list.push(...results)
       // 3.关闭loading
       this.loading = false
+
+      //   this.comment.reply_count++
       // 4.判断是否还有数据
       if (results.length) {
         this.offset = data.data.last_id

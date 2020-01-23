@@ -15,7 +15,9 @@
         <span class="date">{{comment.pubdate|relativeTime}}</span>
         <!-- /发布日期 -->
         <!-- 回复 -->
-        <van-button type="default" size="mini">回复&nbsp;{{comment.reply_count}}</van-button>
+        <van-button @click="$emit('click-reply',comment)" type="default" size="mini">
+          回复&nbsp;{{comment.reply_count}}
+        </van-button>
         <!-- 回复 -->
       </van-col>
     </van-row>
