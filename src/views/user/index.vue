@@ -81,7 +81,7 @@ export default {
         per_page: 20 // 可选的 默认每页 20 条
       })
       // 2.把数据添加到列表中
-      // console.log(data)
+      console.log(data)
       const { results } = data.data
       console.log(results)
       this.list.push(...results)

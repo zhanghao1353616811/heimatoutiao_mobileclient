@@ -28,7 +28,7 @@
       </van-grid>
     </van-row>
     <van-row v-else class="click-login">
-      <van-col @click="$router.push('/login')" class="click-login-image" />
+      <van-col class="click-login-image" />
       <span @click="$router.push('/login')">点击登录</span>
     </van-row>
     <van-grid :column-num="3" :border="false" clickable>

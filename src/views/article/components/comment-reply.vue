@@ -1,6 +1,6 @@
 <template>
   <div class="comment-reply">
-    <van-nav-bar title="0条回复">
+    <van-nav-bar :title="`${comment.reply_count}条回复`">
       <van-icon @click="$emit('click-close')" slot="left" name="cross" />
     </van-nav-bar>
     <comment-item :comment="comment" />
@@ -23,7 +23,7 @@ import postComment from './post-comment'
 import commentItem from './comment-item'
 import { getComments, addComments } from '@/api/comment'
 export default {
-  name: 'CommentReplay',
+  name: 'CommentReply',
   components: {
     commentItem,
     postComment
@@ -65,6 +65,8 @@ export default {
         // console.log(data)
         // 将数据添加到列表中
         this.list.unshift(data.data.new_obj)
+        // 更新回复的总数量
+        this.comment.reply_count++
         this.$toast.success('发布成功')
         // 清空文本框
         this.postMessage = ''
@@ -84,14 +86,12 @@ export default {
         offset: this.offset, // 获取评论数据的偏移量 值为评论id 表示从此id的数据向后取 不传表示从第一页开始读取数据
         limit: this.limit // 获取的评论数据个数 不传表示采用后端服务设定的默认每页数据量
       })
-      // console.log(data)
+      console.log(data)
       const { results } = data.data
       // 2.将数据添加到列表中
       this.list.push(...results)
       // 3.关闭loading
       this.loading = false
-
-      //   this.comment.reply_count++
       // 4.判断是否还有数据
       if (results.length) {
         this.offset = data.data.last_id

@@ -49,7 +49,7 @@
     <!-- 底部区域 -->
     <van-row class="article-footer">
       <van-button @click="isPostCommentShow=true" class="write-btn" type="default" round size="small">写评论</van-button>
-      <van-icon class="comment-icon" name="comment-o" />
+      <van-icon class="comment-icon" name="comment-o" :info="`${totalCount}`"></van-icon>
       <van-icon @click="clickCollectOrCancel" :name="ArticleDetails.is_collected?'star':'star-o'" color="orange" />
       <van-icon @click="clickLikeOrCancel" :name="ArticleDetails.attitude===1?'good-job':'good-job-o'" color="#e5645f" />
       <van-icon class="share-icon" name="share" />
@@ -65,7 +65,11 @@
     <!-- /发布文章评论 -->
     <!-- 评论回复 -->
     <van-popup v-model="isReplyShow" position="bottom" :style="{height:'90%'}">
-      <comment-reply :article-id="articleId" :comment="currentComment" @click-close="isReplyShow=false"/>
+      <!-- v-if="isReplyShow" 如果初始的条件是 false，则弹层的内容不会渲染
+      程序运行期间，当条件变为 true 的时候，弹层才渲染了内容
+      之后切换弹层的展示，弹层只是通过 CSS 控制隐藏和显示 -->
+      <comment-reply v-if="isReplyShow" :article-id="articleId" :comment="currentComment"
+      @click-close="isReplyShow=false"/>
     </van-popup>
     <!-- /评论回复 -->
   </div>
@@ -73,9 +77,9 @@
 
 <script>
 import { mapState } from 'vuex'
-import { addComments } from '@/api/comment'
-import { addFollow, deleteFollow } from '@/api/user'
 import { getArticleDetails, addCollect, deleteCollect, addLike, deleteLike } from '@/api/article'
+import { addComments, getComments } from '@/api/comment'
+import { addFollow, deleteFollow } from '@/api/user'
 import articleComment from './components/article-comment'
 import postComment from './components/post-comment'
 import commentReply from './components/comment-reply'
@@ -101,11 +105,13 @@ export default {
       isPostCommentShow: false, // 发布评论的弹层显示状态
       postMessage: '', // 发布评论内容
       isReplyShow: false, // 展示评论回复弹层
-      currentComment: {}// 点击回复的那个评论项
+      currentComment: {}, // 点击回复的那个评论项
+      totalCount: ''
     }
   },
   methods: {
     onClickReplyComment (comment) {
+      // console.log(comment) comment点击回复所在评论对象
       // 将点击回复所在的评论对象记录起来
       this.currentComment = comment
       this.isReplyShow = true
@@ -158,6 +164,18 @@ export default {
       // 关闭按钮的 loading 状态
       this.isFollowLoadingShow = false
     },
+    // 获取文章评论总数
+    async onLoadComment () {
+      const { data } = await getComments({
+        type: 'a', // a-对文章(article)的评论 c-对评论(comment)的回复
+        source: this.articleId, // 源id 文章id或评论id
+        offset: this.offset, // 获取评论数据的偏移量 值为评论id 表示从此id的数据向后取 不传表示从第一页开始读取数据
+        limit: this.limit // 获取的评论数据个数 不传表示采用后端服务设定的默认每页数据量
+      })
+      // console.log(data)
+      this.totalCount = data.data.total_count
+      this.loadArticleDetails()
+    },
     async clickLikeOrCancel () {
       // 两个作用：1、交互提示 2、防止网络慢用户连续不断的点击按钮请求
       this.$toast.loading({
@@ -205,7 +223,7 @@ export default {
         this.$toast.fail('操作失败')
       }
     },
-    async  loadArticleDetails () {
+    async loadArticleDetails () {
       this.loading = true
       try {
         // 第一种方式获取id: this.$route.params.articleId
@@ -225,6 +243,7 @@ export default {
     ...mapState(['user'])
   },
   created () {
+    this.onLoadComment()
     this.loadArticleDetails()
   }
 }

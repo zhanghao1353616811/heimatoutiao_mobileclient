@@ -22,14 +22,17 @@
       </van-col>
     </van-row>
     <van-row class="like-container" slot="right-icon">
-      <van-icon :name="comment.is_liking?'good-job':'good-job-o'"
-        :color="comment.is_liking?'rgb(229, 100, 95)':''"/>
+      <van-icon @click="onLikeOrCancel"
+        :name="comment.is_liking?'good-job':'good-job-o'"
+        :color="comment.is_liking?'#e5645f':''"/>
       <span>{{comment.like_count?comment.like_count:'赞'}}</span>
     </van-row>
   </van-cell>
 </template>
 
 <script>
+import { addCommentLike, deleteCommentLike } from '@/api/comment'
+
 export default {
   name: 'CommentItem',
   props: {
@@ -37,7 +40,40 @@ export default {
       type: Object,
       required: true
     }
+  },
+  data () {
+    return {
+
+    }
+  },
+  methods: {
+    async onLikeOrCancel () {
+      this.$toast.loading({
+        duration: 0, // 持续展示toast
+        message: '加载中...', // 文本提示内容
+        forbidClick: true //  是否禁止背景点击
+      })
+      try {
+        const commentId = this.comment.com_id.toString()
+        // 如果已点赞 则取消点赞
+        if (this.comment.is_liking) {
+          await deleteCommentLike(commentId)
+          this.comment.like_count--
+          this.$toast.success('取消点赞')
+        } else {
+        // 否则添加点赞
+          await addCommentLike(commentId)
+          this.comment.like_count++
+          this.$toast.success('点赞成功')
+        }
+        this.comment.is_liking = !this.comment.is_liking
+      } catch (error) {
+        console.log(error)
+        this.$toast.fail('操作失败')
+      }
+    }
   }
+
 }
 </script>
 
