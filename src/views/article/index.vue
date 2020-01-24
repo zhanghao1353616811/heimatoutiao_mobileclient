@@ -49,7 +49,7 @@
     <!-- 底部区域 -->
     <van-row class="article-footer">
       <van-button @click="isPostCommentShow=true" class="write-btn" type="default" round size="small">写评论</van-button>
-      <van-icon class="comment-icon" name="comment-o" :info="`${totalCount}`"></van-icon>
+      <van-icon class="comment-icon" name="comment-o" :info="totalCount"></van-icon>
       <van-icon @click="clickCollectOrCancel" :name="ArticleDetails.is_collected?'star':'star-o'" color="orange" />
       <van-icon @click="clickLikeOrCancel" :name="ArticleDetails.attitude===1?'good-job':'good-job-o'" color="#e5645f" />
       <van-icon class="share-icon" name="share" />
@@ -86,6 +86,7 @@ import commentReply from './components/comment-reply'
 
 export default {
   name: 'ArticlePage',
+  inject: ['reload'],
   components: {
     postComment,
     articleComment,
@@ -116,6 +117,22 @@ export default {
       this.currentComment = comment
       this.isReplyShow = true
     },
+    // 获取文章评论总数
+    async onLoadComment () {
+      const { data } = await getComments({
+        type: 'a', // a-对文章(article)的评论 c-对评论(comment)的回复
+        source: this.articleId, // 源id 文章id或评论id
+        offset: this.offset, // 获取评论数据的偏移量 值为评论id 表示从此id的数据向后取 不传表示从第一页开始读取数据
+        limit: this.limit // 获取的评论数据个数 不传表示采用后端服务设定的默认每页数据量
+      })
+      // console.log(data)
+      this.totalCount = data.data.total_count
+      // this.reload()
+      this.isRouterAlive = false
+      // location.reload()
+      // this.loadArticleDetails()
+    },
+    // 发布评论
     async onPostComment () {
       this.$toast.loading({
         duration: 0, // 持续展示 toast
@@ -133,6 +150,7 @@ export default {
         // this.$refs['post-comment'] 没法直接点 因为有特殊符号
         this.$refs['article-comment'].list.unshift(data.data.new_obj)
         this.$toast.success('发布成功')
+        this.totalCount++ // 实时更新文章总评论数
         // 清空文本框
         this.postMessage = ''
         // 关闭弹层
@@ -143,6 +161,7 @@ export default {
         this.postMessage = ''
       }
     },
+    // 关注用户
     async clickFollowOrCancel () {
       // 开启按钮的loading状态
       this.isFollowLoadingShow = true
@@ -164,18 +183,7 @@ export default {
       // 关闭按钮的 loading 状态
       this.isFollowLoadingShow = false
     },
-    // 获取文章评论总数
-    async onLoadComment () {
-      const { data } = await getComments({
-        type: 'a', // a-对文章(article)的评论 c-对评论(comment)的回复
-        source: this.articleId, // 源id 文章id或评论id
-        offset: this.offset, // 获取评论数据的偏移量 值为评论id 表示从此id的数据向后取 不传表示从第一页开始读取数据
-        limit: this.limit // 获取的评论数据个数 不传表示采用后端服务设定的默认每页数据量
-      })
-      // console.log(data)
-      this.totalCount = data.data.total_count
-      this.loadArticleDetails()
-    },
+    // 点赞文章
     async clickLikeOrCancel () {
       // 两个作用：1、交互提示 2、防止网络慢用户连续不断的点击按钮请求
       this.$toast.loading({
@@ -200,6 +208,7 @@ export default {
         this.$toast.fail('操作失败')
       }
     },
+    // 收藏文章
     async clickCollectOrCancel () {
       this.$toast.loading({
         duration: 0,
@@ -223,6 +232,7 @@ export default {
         this.$toast.fail('操作失败')
       }
     },
+    // 加载文章详情数据
     async loadArticleDetails () {
       this.loading = true
       try {
