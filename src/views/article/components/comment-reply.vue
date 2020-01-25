@@ -5,7 +5,7 @@
     </van-nav-bar>
     <comment-item :comment="comment" />
     <van-cell title="全部评论" />
-    <van-list @load="onLoadComment" v-model="loading" :finished="finished" finished-text="没有更多了">
+    <van-list @load="onLoadComment" v-model="loading" :finished="finished" finished-text="已展示所有评论">
       <comment-item :comment="comment" v-for="(comment,index) in list" :key="index" />
     </van-list>
     <van-row class="reply-footer">

@@ -9,11 +9,9 @@
       </van-search>
     </form>
     <!-- /搜索栏 -->
-
     <!-- 搜索结果 -->
     <search-result v-if="isSearchResultShow" :searchContent="searchContent" class="search-result"/>
     <!-- /搜索结果 -->
-
     <!-- 联想建议 -->
     <van-cell-group v-else-if="searchContent" class="search-suggestions">
       <van-cell @click="onSearch(search)" v-for="(search,index) in searchSuggestions" :key="index" icon="search">
@@ -21,7 +19,6 @@
       </van-cell>
     </van-cell-group>
     <!-- /联想建议 -->
-
     <!-- 历史记录 -->
     <van-cell-group v-else class="search-histories">
       <van-cell center title="历史记录">

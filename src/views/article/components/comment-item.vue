@@ -81,7 +81,7 @@ export default {
 .comment-item {
   display: flex;
   align-items: flex-start;
-  padding: 5px 0;
+  padding: 15px;
   .avatar {
     width: 30px;
     height: 30px;

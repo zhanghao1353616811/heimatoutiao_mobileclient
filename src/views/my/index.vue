@@ -6,7 +6,7 @@
           <van-image @click="$router.push(`/user/${user.id}`)" :src="user.photo" round fit="cover" />
           <span>{{user.name}}</span>
         </van-col>
-        <van-button round size="mini">编辑资料</van-button>
+        <van-button @click="$router.push('/user/profile')" round size="mini">编辑资料</van-button>
       </van-row>
       <van-grid :border="false" class="data-info">
         <van-grid-item>

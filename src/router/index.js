@@ -13,10 +13,17 @@ const routes = [
     path: '/login',
     component: () => import('@/views/login')
   },
+  // 用户资料 这个路由组件需要写在用户 path: '/user/:userId' 前面 因为匹配优先级不同
+  // 要注意路由匹配的优先级 从上到下
+  {
+    name: 'user-profile',
+    path: '/user/profile',
+    component: () => import('@/views/user-profile')
+  },
   // 用户
   {
     name: 'user',
-    path: '/user/:userId',
+    path: '/user/:userId', // 动态路由参数
     component: () => import('@/views/user')
   },
   // 搜索
@@ -25,7 +32,7 @@ const routes = [
     path: '/search',
     component: () => import('@/views/search')
   },
-  // 放到一级路由
+  // 文章 放到一级路由
   {
     name: 'article',
     path: '/article/:articleId',

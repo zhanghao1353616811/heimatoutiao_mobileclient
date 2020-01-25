@@ -3,12 +3,14 @@
     <!-- 导航栏 -->
     <van-nav-bar @click-left="$router.back()" title="文章详情" left-arrow fixed />
     <!-- /导航栏 -->
+
     <van-row class="article-box">
       <!-- 加载中 -->
       <van-loading v-if="loading" class="article-loading" color="#1989fa" vertical>
         <slot>加载中...</slot>
       </van-loading>
       <!-- /加载中 -->
+
       <!-- 文章详情 -->
       <van-row v-else-if="ArticleDetails.title" class="article-details">
         <h3 class="article-title">{{ArticleDetails.title}}</h3>
@@ -27,15 +29,18 @@
             class="follow-btn" round size="mini">{{ArticleDetails.is_followed?'已关注':'关注'}}
           </van-button>
         </van-row>
+
         <!--文章内容 -->
         <Van-row v-html="ArticleDetails.content" class="markdown-body" />
         <!-- /文章内容 -->
+
          <van-cell title="全部评论" class="comment-list-title"/>
         <!-- 文章评论 -->
         <article-comment @click-reply="onClickReplyComment" ref="article-comment" :article-id="articleId"/>
         <!-- /文章评论 -->
       </van-row>
       <!-- /文章详情 -->
+
       <!-- 加载失败提示 -->
       <van-row v-else class="article-error">
         <img src="../../assets/images/no-network.png" alt="no-network"/>
@@ -46,6 +51,7 @@
       </van-row>
       <!-- /加载失败提示 -->
     </van-row>
+
     <!-- 底部区域 -->
     <van-row class="article-footer">
       <van-button @click="isPostCommentShow=true" class="write-btn" type="default" round size="small">写评论</van-button>
@@ -55,6 +61,7 @@
       <van-icon class="share-icon" name="share" />
     </van-row>
     <!-- /底部区域 -->
+
     <!-- 发布文章评论 -->
     <van-popup v-model="isPostCommentShow" position="bottom" :style="{height:'18%'}">
       <!-- 在组件上使用 v-model 本质父子通信 相当于 :value="postMessage"
@@ -63,6 +70,7 @@
       <post-comment v-model="postMessage" @click-post="onPostComment"/>
     </van-popup>
     <!-- /发布文章评论 -->
+
     <!-- 评论回复 -->
     <van-popup v-model="isReplyShow" position="bottom" :style="{height:'90%'}">
       <!-- v-if="isReplyShow" 如果初始的条件是 false，则弹层的内容不会渲染
