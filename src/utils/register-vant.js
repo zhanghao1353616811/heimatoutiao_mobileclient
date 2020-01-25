@@ -19,6 +19,7 @@ import {
   Loading,
   ActionSheet,
   DatetimePicker,
+  ImagePreview,
   Row,
   Col,
   Cell,
@@ -47,6 +48,7 @@ Vue.use(Button)
   .use(Loading)
   .use(ActionSheet)
   .use(DatetimePicker)
+  .use(ImagePreview)
   .use(Row)
   .use(Col)
   .use(Cell)

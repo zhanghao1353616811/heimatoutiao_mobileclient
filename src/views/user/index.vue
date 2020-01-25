@@ -3,7 +3,7 @@
     <van-nav-bar @click-left="$router.back()" :title="userInfo.name" left-arrow fixed/>
     <van-row class="user-info-container">
       <van-col class="user-info">
-        <van-image :src="userInfo.photo" class="user-infoImage" round fit="fill" />
+        <van-image @click="imagePreview" ref="image" :src="userInfo.photo" class="user-infoImage" round fit="fill" />
         <van-row class="user-info-row">
           <van-col class="user-info-col">
             <van-row class="item">
@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import { ImagePreview } from 'vant'
 import { getUserById } from '@/api/user'
 import { getUserArticles } from '@/api/article'
 
@@ -64,6 +65,13 @@ export default {
     }
   },
   methods: {
+    // 图片预览
+    imagePreview  () {
+      const fileData = this.userInfo.photo
+      ImagePreview({
+        images: [fileData]
+      })
+    },
     async loadUserInfo () {
       try {
         const { data } = await getUserById(this.$route.params.userId)
