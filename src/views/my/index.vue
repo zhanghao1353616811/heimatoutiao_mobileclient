@@ -45,7 +45,7 @@
     </van-grid>
     <van-cell-group class="my-van-cell">
       <van-cell title="消息通知" is-link />
-      <van-cell title="小智同学" is-link />
+      <van-cell @click="$router.push('/user/chat')" title="小智同学" is-link />
     </van-cell-group>
     <van-button @click="userLoginOut" v-if="$store.state.user" plain class="loginBtn">退出登录</van-button>
   </van-row>

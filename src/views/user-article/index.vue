@@ -3,6 +3,7 @@
     <!-- 导航栏 -->
     <van-nav-bar fixed @click-left="$router.back()" title="收藏/历史/作品" left-arrow />
     <!-- /导航栏 -->
+    <!-- 标签列表 -->
     <van-tabs v-model="active">
       <van-tab title="收藏">
         <user-collect />
@@ -14,6 +15,7 @@
         <user-article />
       </van-tab>
     </van-tabs>
+    <!-- /标签列表 -->
   </div>
 </template>
 
