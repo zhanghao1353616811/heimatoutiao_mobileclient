@@ -20,6 +20,22 @@ const routes = [
     path: '/user/profile',
     component: () => import('@/views/user-profile')
   },
+  // 收藏/历史/作品
+  {
+    name: 'my-article',
+    path: '/my-article',
+    component: () => import('@/views/user-article')
+  },
+  {
+    name: 'my-article',
+    path: '/my-article/collect',
+    component: () => import('@/views/user-article')
+  },
+  {
+    name: 'my-article',
+    path: '/my-article/history',
+    component: () => import('@/views/user-article')
+  },
   // 用户
   {
     name: 'user',
