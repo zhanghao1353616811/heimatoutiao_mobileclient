@@ -32,19 +32,14 @@
       <span @click="$router.push('/login')">点击登录</span>
     </van-row>
     <van-grid :column-num="3" :border="false" clickable>
-      <van-grid-item text="我的收藏">
+      <van-grid-item text="我的收藏" to="/my-article/collect">
         <van-icon slot="icon" class-prefix="icon" name="xingxing" class="my-icon" color="#eb5253" />
       </van-grid-item>
-      <van-grid-item text="浏览历史">
-        <van-icon
-          slot="icon"
-          class-prefix="icon"
-          name="browsing-history-o"
-          class="my-icon"
-          color="#ffa023"
-        />
+      <van-grid-item text="浏览历史" to="/my-article/history">
+        <van-icon slot="icon" class-prefix="icon" name="browsing-history-o"
+        class="my-icon" color="#ffa023" />
       </van-grid-item>
-      <van-grid-item text="作品">
+      <van-grid-item text="作品" to="/my-article">
         <van-icon slot="icon" class-prefix="icon" name="edit" class="my-icon" color="#678eff" />
       </van-grid-item>
     </van-grid>

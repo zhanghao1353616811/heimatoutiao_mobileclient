@@ -23,18 +23,9 @@ const routes = [
   // 收藏/历史/作品
   {
     name: 'my-article',
-    path: '/my-article',
-    component: () => import('@/views/user-article')
-  },
-  {
-    name: 'my-article',
-    path: '/my-article/collect',
-    component: () => import('@/views/user-article')
-  },
-  {
-    name: 'my-article',
-    path: '/my-article/history',
-    component: () => import('@/views/user-article')
+    path: '/my-article/:type?', //  :type? 能够匹配 /my-article  /my-article/a  /my-article/b
+    component: () => import('@/views/user-article'),
+    props: true
   },
   // 用户
   {
