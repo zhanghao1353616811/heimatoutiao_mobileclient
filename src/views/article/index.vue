@@ -135,10 +135,7 @@ export default {
       })
       // console.log(data)
       this.totalCount = data.data.total_count
-      // this.reload()
       this.isRouterAlive = false
-      // location.reload()
-      // this.loadArticleDetails()
     },
     // 发布评论
     async onPostComment () {

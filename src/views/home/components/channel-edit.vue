@@ -58,7 +58,7 @@ export default {
     },
     async loadAllChannels () {
       const { data } = await getAllChannels()
-      console.log(data)
+      // console.log(data)
       this.allChannels = data.data.channels
     }
   },
