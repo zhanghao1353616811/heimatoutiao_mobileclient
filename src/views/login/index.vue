@@ -71,11 +71,11 @@ export default {
         // 2.请求发送短信验证码
         // res是then中成功后接收的结果
         const res = await getSmsCode(mobile)
-        console.log(res)
+        // console.log(res)
         // 3.显示倒计时
         this.isCountDownShow = true
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         if (error.response.status === 429) {
           this.$toast.fail('请勿重复操作')
           return
@@ -92,12 +92,12 @@ export default {
       const success = await this.$refs.myForm.validate()
       if (!success) {
         // 表单验证失败处理
-        console.log('表单验证失败')
+        // console.log('表单验证失败')
         const errors = this.$refs.myForm.errors
-        console.log(errors)
+        // console.log(errors)
         for (let key in errors) {
           const item = errors[key]
-          console.log(item)
+          // console.log(item)
           if (item[0]) {
             this.$toast(item[0])
             // 找到第一个有错误的消息 给出提示 停止遍历
@@ -124,10 +124,11 @@ export default {
         console.log('登陆成功', res)
         // 提示成功
         this.$toast.success('登录成功')
-        // 跳转到首页
-        this.$router.push('/')
+        // 如果有 redirect 则跳转到来源页 没有就跳转到首页
+        const redirect = this.$route.query.redirect || '/'
+        this.$router.push(redirect)
       } catch (error) {
-        console.log('登录失败', error)
+        // console.log('登录失败', error)
         this.$toast.fail('登录失败,手机号或验证码不对')
       }
       // 4.根据后端返回结果执行后续业务处理

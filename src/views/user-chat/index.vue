@@ -64,6 +64,7 @@ export default {
     }
   },
   watch: {
+    // 监视数据变化 然后把数据放到本地存储
     // 监视函数有两个参数
     // 参数1：最新值
     // 参数2：变化之前的旧值
@@ -72,7 +73,7 @@ export default {
       setItem('chat-messages', value)
       // 让消息列表滚动到底部
       // $nextTick()根据代码执行顺序 数据更新 但是dom还没有加载 这个方法就是等dom更新完才执行
-      // 修改完数据之后 马上操作数据影响的这个Dom
+      // 修改数据之后立即操作的视图 Dom 不是最新的
       // 什么场景下才需要使用这个 Api ?当你想要在修改数据之后马上操作数据影响的Dom
       // 为了解决这个问题 Vue提供了 一个特殊的Api: $nextTick
       this.$nextTick(() => {
