@@ -18,9 +18,11 @@ const USER_KEY = 'user'
 
 export default new Vuex.Store({
   state: {
-    user: getItem(USER_KEY) // 当前登录用户状态(token)
+    user: getItem(USER_KEY), // 当前登录用户状态(token)
+    cachePages: ['TabBar']
   },
   mutations: {
+    // 登录成功和退出登录都会调用
     // 本地存储只是为了持久化 页面中怎么访问到用户登录状态 拿到token 可以直接找容器拿 而容器内部已经把持久化自行解决了
     setUser (state, data) {
       if (data && data.token) {
@@ -30,6 +32,19 @@ export default new Vuex.Store({
       state.user = data
       // 为了避免页面刷新数据丢失  我们这里使用本地存储进行 持久化
       setItem(USER_KEY, state.user)
+    },
+    // 添加缓存页面
+    addCachePage (state, name) {
+      if (!state.cachePages.includes(name)) {
+        state.cachePages.push(name)
+      }
+    },
+    // 移除缓存页面
+    removeCachePage (state, name) {
+      const index = state.cachePages.indexOf(name)
+      if (index !== -1) {
+        state.cachePages.splice(index)
+      }
     }
   },
   actions: {

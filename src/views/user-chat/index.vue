@@ -4,7 +4,7 @@
     <van-nav-bar fixed @click-left="$router.back()" title="小智同学" left-arrow />
     <!-- /导航栏 -->
     <!-- 消息列表 -->
-    <div class="message-list" ref="message-list">
+    <van-row class="message-list" ref="messageList">
       <!-- :class="{ class类名:布尔值 }"
       true:作用类名 false：不作用类名-->
       <div class="message-item" :class="{ reverse:item.isMe}" v-for="(item,index) in messages" :key="index">
@@ -13,7 +13,7 @@
           <span>{{item.msg}}</span>
         </van-row>
       </div>
-    </div>
+    </van-row>
     <!-- /消息列表 -->
     <!-- 发送消息 -->
     <van-cell-group class="send-message">
@@ -59,7 +59,13 @@ export default {
       this.message = ''
     },
     toBottom () {
-      const messageList = this.$refs['message-list']
+      // listContainer.scrollTop 获取距离顶部的距离
+      // listContainer.scrollTop = xxx 设置距离顶部的距离
+      // ref作用到组件上是获取的组件 非dom元素
+      // 获取 OffsetTop 组件不是DOM元素 是没有OffsetTop的
+      // 无法通过点 .OffsetTop来获取的 就需要通过$el来获取组件中的DOM元素
+      // this.$refs.名字.$el
+      const messageList = this.$refs.messageList.$el
       messageList.scrollTop = messageList.scrollHeight
     }
   },

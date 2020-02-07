@@ -49,8 +49,8 @@ export default {
     return {
       isCountDownShow: false, // 是否显示倒计时
       userInfo: {
-        mobile: '13911111111', // 手机号
-        code: '246810' // 短信验证码
+        mobile: '', // 手机号
+        code: '' // 短信验证码
       }
     }
   },
@@ -121,12 +121,12 @@ export default {
         const res = await userLogin(userInfo)
         // 将登陆成功获取到的用户 token 相关数据存储到 Vuex 容器
         this.$store.commit('setUser', res.data.data)
-        console.log('登陆成功', res)
+        // console.log('登陆成功', res)
         // 提示成功
         this.$toast.success('登录成功')
         // 如果有 redirect 则跳转到来源页 没有就跳转到首页
         const redirect = this.$route.query.redirect || '/'
-        this.$router.push(redirect)
+        this.$router.replace(redirect)
       } catch (error) {
         // console.log('登录失败', error)
         this.$toast.fail('登录失败,手机号或验证码不对')

@@ -72,7 +72,7 @@ request.interceptors.response.use(function (response) {
       // 刷新 token 请求 接口需要 refresh_token 非刷新 token 的请求 则需要 token 需要改逻辑
       // 如果 request 刷新 token 失败了 还会进入 request自己的响应拦截器中 在这里会执行请求刷新 token 的操作
       // 而我们需要 当刷新 token 失败之后的直接跳转登录页 不需要在执行任何的处理了
-      // 所以 request 请求拦截器处理 和响应拦截器 不符合我们请求刷新 token 的要求 除非你在里面继续更多的判断逻辑
+      // 所以 request 请求拦截器处理和响应拦截器不符合我们请求刷新 token的要求 除非你在里面继续更多的判断逻辑
       const { data } = await axios({
         method: 'PUT',
         url: 'http://ttapi.research.itcast.cn/app/v1_0/authorizations',
@@ -108,10 +108,13 @@ function redirectLogin () {
   router.push({
     name: 'login',
     // query 参数会以 ？key=calue&key=value 的格式添加到 url 后面
+    // query 参数不需要配置路由规则，可以传递任意参数
+    // query 是固定的语法格式，用来传递 ?key=value 查询字符串
     query: {
       // 这里使用查询参数 把要跳转回来的路由地址传递给了登录页面
       // router.currentRoute 就是当前路由对象 好比我们在组件中的 this.$route
       // 当前路由对象的fullPath就是当前路由的路径
+      // redirect 是我自己起的一个名字 自定义名字
       redirect: router.currentRoute.fullPath
     }
   })
