@@ -78,7 +78,7 @@ export default {
         this.userInfo = data.data
         // console.log(data)
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.$toast.fail('加载数据失败')
       }
     },
@@ -89,9 +89,9 @@ export default {
         per_page: 20 // 可选的 默认每页 20 条
       })
       // 2.把数据添加到列表中
-      console.log(data)
+      // console.log(data)
       const { results } = data.data
-      console.log(results)
+      // console.log(results)
       this.list.push(...results)
       // results.forEach(item => {
       //   this.list.push(item)

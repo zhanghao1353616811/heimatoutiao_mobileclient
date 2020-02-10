@@ -106,7 +106,7 @@ export default {
       const { data } = await getSuggestions(searchContent)
       // 2.将数据添加到组件实例中
       this.searchSuggestions = data.data.options
-      console.log(data)
+      // console.log(data)
       // 3.模板绑定
     }, 200)
   }

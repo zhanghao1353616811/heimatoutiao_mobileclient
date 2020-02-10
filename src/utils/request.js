@@ -83,6 +83,9 @@ request.interceptors.response.use(function (response) {
       // 3.如果刷新token成功了 则把新的 token更新到容器中
       // console.log(data)
 
+      // user.token = data.data.token
+      // store.commit('setUser', user)
+
       // store.commit 修改容器数据必须通过 mutation来修改
       store.commit('setUser', {
         ...user, // 原来数据不变 user:{ id,token,refresh_token }
@@ -91,13 +94,13 @@ request.interceptors.response.use(function (response) {
       // 4.把之前失败的请求继续发出去
       // error.config 获取道德是本次请求的相关配置对象 其中包含它的 method url等信息
       // 谁请求失败 谁就是 error.config 错误的请求
-      console.log(error.config)
+      // console.log(error.config)
       // 把本次因为 token无效过期的失败请求重新发送
       // 注意: 这里使用 request 还是走原来的请求拦截器 响应拦截器
       // 注意: 使用 return 把请求结果继续返回 真正请求的代码才能拿到
       return request(error.config)
     } catch (error) {
-      console.log('刷新token失败', error)
+      // console.log('刷新token失败', error)
       redirectLogin()
     }
   }

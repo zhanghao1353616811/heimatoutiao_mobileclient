@@ -70,7 +70,8 @@ export default {
       try {
         // 2.请求发送短信验证码
         // res是then中成功后接收的结果
-        const res = await getSmsCode(mobile)
+        // const res = await getSmsCode(mobile)
+        await getSmsCode(mobile)
         // console.log(res)
         // 3.显示倒计时
         this.isCountDownShow = true
@@ -126,6 +127,7 @@ export default {
         this.$toast.success('登录成功')
         // 如果有 redirect 则跳转到来源页 没有就跳转到首页
         const redirect = this.$route.query.redirect || '/'
+        // 登陆成功 使用 replace 跳转 (不会形成历史记录)
         this.$router.replace(redirect)
       } catch (error) {
         // console.log('登录失败', error)

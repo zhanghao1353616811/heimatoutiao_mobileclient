@@ -65,7 +65,7 @@ export default {
         // 5.将数据赋值给当前组件数据
         this.userChannels = channels
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.$toast.fail('加载数据失败')
       }
     }

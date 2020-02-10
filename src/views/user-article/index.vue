@@ -1,7 +1,7 @@
 <template>
   <div class="user-articles">
     <!-- 导航栏 -->
-    <van-nav-bar fixed @click-left="$router.back()" title="收藏/历史/作品" left-arrow />
+    <van-nav-bar fixed @click-left="$router.replace('/my')" title="收藏/历史/作品" left-arrow />
     <!-- /导航栏 -->
     <!-- 标签列表 -->
     <van-tabs v-model="active">
@@ -62,6 +62,16 @@ export default {
     }
     // 放行通过
     next()
+  },
+  // 当组件被缓存之后不再触发 create、mount
+  // 如果你想要当缓存页面由激活到停用或者是由停用→激活执行一些业务操作的时候，可以使用 activated、deactivated
+  // 被 keep-alive 缓存的组件激活时调用。
+  activated () {
+    console.log('activated')
+  },
+  // 被 keep-alive 缓存的组件停用时调用
+  deactivated () {
+    console.log('deactivated')
   }
 }
 </script>

@@ -36,7 +36,7 @@ export default {
         q: this.searchContent // 搜索关键词
       })
       // 2.将数据添加到列表中
-      console.log(data)
+      // console.log(data)
       const { results } = data.data
       this.searchResult.push(...results)
       // 3.加载状态结束

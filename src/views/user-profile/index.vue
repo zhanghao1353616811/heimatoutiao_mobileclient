@@ -40,7 +40,7 @@
 
 <script>
 import moment from 'moment'
-import { ImagePreview, Field } from 'vant'
+import { ImagePreview } from 'vant'
 import { getUserProfile, updateUserPhoto, updateUserProfile } from '@/api/user'
 
 export default {
@@ -106,12 +106,13 @@ export default {
         })
         this.$toast.success('修改成功')
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.$toast.fail('修改失败')
       }
     },
     onFileChange () {
       // 预览图片
+      // 2. 使用 window.URL.createObjectURL(file) 得到文件数据
       const fileData = URL.createObjectURL(this.file.files[0])
       this.images = [fileData] // 这里直接重置数组，防止出现多个预览图片
       this.isPreviewShow = true
@@ -138,8 +139,6 @@ export default {
         })
         // 1. 拿到 file 类型 input 选择的文件对象
         const fileObj = this.file.files[0]
-        // 2. 使用 window.URL.createObjectURL(file) 得到文件数据
-        const fileData = window.URL.createObjectURL(fileObj)
         // 构造包含文件的表单对象
         const fd = new FormData()
         // formData.append('名字', 数据)
@@ -153,7 +152,7 @@ export default {
         // 提示成功
         this.$toast.success('上传成功')
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.isPreviewShow = false
         this.$toast.fail('上传失败')
       }
@@ -168,7 +167,7 @@ export default {
         // console.log(data)
         this.UserProfile = data.data
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.$toast.fail('加载数据失败')
       }
     }

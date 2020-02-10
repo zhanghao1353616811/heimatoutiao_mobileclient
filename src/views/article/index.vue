@@ -161,7 +161,7 @@ export default {
         // 关闭弹层
         this.isPostCommentShow = false
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.$toast.fail('发布失败')
         this.postMessage = ''
       }
@@ -182,7 +182,7 @@ export default {
         // 更新视图
         this.ArticleDetails.is_followed = !this.ArticleDetails.is_followed
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.$toast.fail('操作失败')
       }
       // 关闭按钮的 loading 状态
@@ -209,7 +209,7 @@ export default {
           this.$toast.success('点赞成功')
         }
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.$toast.fail('操作失败')
       }
     },
@@ -233,7 +233,7 @@ export default {
           this.$toast.success('收藏成功')
         }
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.$toast.fail('操作失败')
       }
     },
@@ -248,7 +248,7 @@ export default {
         // console.log(data)
         this.ArticleDetails = data.data
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.$toast.fail('加载数据失败')
       }
       this.loading = false

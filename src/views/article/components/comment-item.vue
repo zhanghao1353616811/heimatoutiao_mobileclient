@@ -68,7 +68,7 @@ export default {
         }
         this.comment.is_liking = !this.comment.is_liking
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         this.$toast.fail('操作失败')
       }
     }
