@@ -6,30 +6,33 @@
     <!-- 标签列表 -->
     <van-tabs v-model="active">
       <van-tab title="收藏">
-        <user-collect />
+        <collect-article />
       </van-tab>
       <van-tab title="历史">
-        <user-history />
+        <history-article />
       </van-tab>
       <van-tab title="作品">
         <user-article />
       </van-tab>
     </van-tabs>
     <!-- /标签列表 -->
+    <!-- 动态组件 -->
+     <component v-bind:is="currentTabComponent"></component>
   </div>
 </template>
 
 <script>
-import userArticle from './components/article'
-import userCollect from './components/collect'
-import userHistory from './components/history'
+// import userArticle from './components/article'
+// import userCollect from './components/collect'
+// import userHistory from './components/history'
 
 export default {
   name: 'UserArticles',
   components: {
-    userArticle,
-    userCollect,
-    userHistory
+    // 配置成异步组件
+    UserArticle: () => import('./components/article'),
+    CollectArticle: () => import('./components/collect'),
+    HistoryArticle: () => import('./components/history')
   },
   props: {
     type: {
@@ -44,6 +47,11 @@ export default {
     }
     return {
       active // 控制激活的标签选项
+    }
+  },
+  computed: {
+    currentTabComponent () {
+      return ['CollectArticle', 'HistoryArticle', 'UserArticle'][this.active]
     }
   },
   // 当前页面路由跳转的时候会触发这个路由钩子函数
@@ -88,5 +96,4 @@ export default {
     z-index: 1;
   }
 }
-
 </style>
