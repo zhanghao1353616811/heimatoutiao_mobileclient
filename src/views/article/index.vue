@@ -22,6 +22,7 @@
               <van-col class="info-time">{{ArticleDetails.pubdate|relativeTime}}</van-col>
             </van-row>
           </van-col>
+
           <!-- v-if=如果用户没登录||文章作者不是当前登录用户 !$store.state.user=!user -->
           <van-button v-if="!user||ArticleDetails.aut_id !==$store.state.user.id"
             @click="clickFollowOrCancel" :loading="isFollowLoadingShow" loading-type="spinner"
@@ -54,11 +55,14 @@
 
     <!-- 底部区域 -->
     <van-row class="article-footer">
-      <van-button @click="isPostCommentShow=true" class="write-btn" type="default" round size="small">写评论</van-button>
+      <van-button @click="isPostCommentShow=true"
+        class="write-btn" type="default" round size="small">写评论</van-button>
       <van-icon class="comment-icon" name="comment-o" :info="totalCount"></van-icon>
-      <van-icon @click="clickCollectOrCancel" :name="ArticleDetails.is_collected?'star':'star-o'" color="orange" />
-      <van-icon @click="clickLikeOrCancel" :name="ArticleDetails.attitude===1?'good-job':'good-job-o'" color="#e5645f" />
-      <van-icon class="share-icon" name="share" />
+      <van-icon @click="clickCollectOrCancel"
+        :name="ArticleDetails.is_collected?'star':'star-o'" color="orange" />
+      <van-icon @click="clickLikeOrCancel"
+        :name="ArticleDetails.attitude===1?'good-job':'good-job-o'" color="#e5645f" />
+      <van-icon @click="onShare" class="share-icon" name="share" />
     </van-row>
     <!-- /底部区域 -->
 
@@ -115,10 +119,24 @@ export default {
       postMessage: '', // 发布评论内容
       isReplyShow: false, // 展示评论回复弹层
       currentComment: {}, // 点击回复的那个评论项
-      totalCount: ''
+      totalCount: ''// 文章评论总数
     }
   },
   methods: {
+    onShare () {
+      // 第一个参数:要发送的分享消息对象
+      // 第二个参数:分享操作成功回调
+      // 第三个参数:分享操作失败回调
+      window.plus.share.sendWithSystem({
+        title: 'hello',
+        content: this.ArticleDetails.title,
+        href: `http://www.mingjue.xyz/#${this.$route.fullPath}`
+      }, () => {
+        console.log('分享成功')
+      }, () => {
+        console.log('分享失败')
+      })
+    },
     onClickReplyComment (comment) {
       // console.log(comment) comment点击回复所在评论对象
       // 将点击回复所在的评论对象记录起来
