@@ -128,13 +128,12 @@ export default {
       // 第二个参数:分享操作成功回调
       // 第三个参数:分享操作失败回调
       window.plus.share.sendWithSystem({
-        title: 'hello',
         content: this.ArticleDetails.title,
         href: `http://www.mingjue.xyz/#${this.$route.fullPath}`
       }, () => {
-        console.log('分享成功')
+        this.$toast.success('分享成功')
       }, () => {
-        console.log('分享失败')
+        this.$toast.fail('分享失败')
       })
     },
     onClickReplyComment (comment) {
