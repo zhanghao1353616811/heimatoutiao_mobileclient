@@ -131,9 +131,9 @@ export default {
         content: this.ArticleDetails.title,
         href: `http://www.mingjue.xyz/#${this.$route.fullPath}`
       }, () => {
-        this.$toast.success('分享成功')
+        console.log('分享成功')
       }, () => {
-        this.$toast.fail('分享失败')
+        console.log('分享失败')
       })
     },
     onClickReplyComment (comment) {
