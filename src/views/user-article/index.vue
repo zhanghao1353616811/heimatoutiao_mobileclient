@@ -5,15 +5,9 @@
     <!-- /导航栏 -->
     <!-- 标签列表 -->
     <van-tabs v-model="active">
-      <van-tab title="收藏">
-        <collect-article />
-      </van-tab>
-      <van-tab title="历史">
-        <history-article />
-      </van-tab>
-      <van-tab title="作品">
-        <user-article />
-      </van-tab>
+      <van-tab title="收藏" />
+      <van-tab title="历史" />
+      <van-tab title="作品" />
     </van-tabs>
     <!-- /标签列表 -->
     <!-- 动态组件 -->
@@ -22,9 +16,6 @@
 </template>
 
 <script>
-// import userArticle from './components/article'
-// import userCollect from './components/collect'
-// import userHistory from './components/history'
 
 export default {
   name: 'UserArticles',
